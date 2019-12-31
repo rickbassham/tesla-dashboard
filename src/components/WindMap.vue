@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-1" height="300">
+  <v-card class="mx-auto my-1" height="510">
     <v-card-text class="fill-height">
       <div :id="uuid" class="container fill-height"></div>
     </v-card-text>
