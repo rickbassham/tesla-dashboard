@@ -66,7 +66,9 @@
       </v-container>
     </v-content>
     <v-footer app>
-      <span>&copy; 2019 Rick Bassham</span>
+      <v-btn text href="https://github.com/rickbassham/tesla-dashboard">&copy; 2019 Rick Bassham</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn text href="https://ts.la/brodrick17858">Tesla Referral Link</v-btn>
     </v-footer>
   </v-app>
 </template>
@@ -77,7 +79,7 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: false
-  })
+    drawer: false,
+  }),
 };
 </script>
