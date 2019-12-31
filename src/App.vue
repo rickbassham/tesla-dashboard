@@ -2,54 +2,12 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item link :to="'/'">
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link :to="'/guest'">
-          <v-list-item-action>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Guest Instructions</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link :to="'/abrp'">
-          <v-list-item-action>
-            <v-icon>mdi-map</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>A Better Route Planner</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link :to="'/waze'">
-          <v-list-item-action>
-            <v-icon>mdi-map</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Waze</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link :to="'/plugshare'">
-          <v-list-item-action>
-            <v-icon>mdi-power-plug</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>PlugShare</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link :to="'/setup'">
-          <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <menu-item name="Home" link="/" icon="mdi-home"></menu-item>
+        <menu-item name="Guest Instructions" link="/guest" icon="mdi-account"></menu-item>
+        <menu-item name="A Better Route Planner" link="/abrp" icon="mdi-map"></menu-item>
+        <menu-item name="Waze" link="/waze" icon="mdi-map"></menu-item>
+        <menu-item name="PlugShare" link="/plugshare" icon="mdi-power-plug"></menu-item>
+        <menu-item name="Settings" link="/setup" icon="mdi-settings"></menu-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -74,7 +32,12 @@
 </template>
 
 <script>
+import MenuItem from './components/MenuItem.vue';
+
 export default {
+  components: {
+    MenuItem,
+  },
   props: {
     source: String
   },
