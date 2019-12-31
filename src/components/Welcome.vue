@@ -13,6 +13,11 @@
         <wind-map v-bind:location="{ latitude, longitude }" />
       </v-col>
     </v-row>
+    <ul>
+      <li>Window Inner {{ windowInnerWidth}} x {{ windowInnerHeight }}</li>
+      <li>Window Outer {{ windowOuterWidth}} x {{ windowOuterHeight }}</li>
+      <li>Document {{ documentWidth}} x {{ documentHeight }}</li>
+    </ul>
   </v-container>
 </template>
 
@@ -31,6 +36,12 @@ export default {
     return {
       latitude: null,
       longitude: null,
+      windowInnerHeight: window.innerHeight,
+      windowInnerWidth: window.innerWidth,
+      windowOuterHeight: window.outerHeight,
+      windowOuterWidth: window.outerWidth,
+      documentWidth: document.documentElement.clientWidth,
+      documentHeight: document.documentElement.clientHeight,
     }
   },
   mounted() {
