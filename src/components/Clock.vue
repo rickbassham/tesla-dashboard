@@ -1,8 +1,8 @@
 <template>
   <v-card class="mx-auto my-1" height="200">
-    <v-card-text class="text-center">
-      <p class="display-1 text--primary">{{ currentTime | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}</p>
-    </v-card-text>
+    <v-card-title class="justify-center fill-height">
+      {{ currentTime | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}
+    </v-card-title>
   </v-card>
 </template>
 
