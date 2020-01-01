@@ -1,7 +1,9 @@
 <template>
   <v-card class="mx-auto my-1" height="200">
     <v-card-title class="justify-center fill-height">
-      {{ currentTime | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}
+      <p class="mt-12">{{ currentTime | moment("dddd, MMMM Do YYYY") }}</p>
+      <div style="flex-basis: 100%; height: 0px"></div>
+      <p class="mb-12">{{ currentTime | moment("h:mm:ss a") }}</p>
     </v-card-title>
   </v-card>
 </template>
