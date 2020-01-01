@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" :dark="setTheme">
+  <v-app id="inspire" :dark="darkMode">
     <v-app-bar app>
       <v-toolbar-title>Tesla Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -36,7 +36,7 @@
         <v-icon left>mdi-github-circle</v-icon>GitHub
       </v-btn>
       <v-spacer></v-spacer>
-      <v-switch :label="`Dark Theme`" v-model="goDark"></v-switch>
+      <v-btn text @click="() => this.darkMode = !this.darkMode">{{ this.darkModeText }}</v-btn>
       <v-btn text href="https://ts.la/brodrick17858">Tesla Referral Link</v-btn>
     </v-footer>
   </v-app>
@@ -48,19 +48,22 @@ export default {
   props: {
     source: String
   },
-  data: () => ({
-    goDark: false
-  }),
   computed: {
-    setTheme() {
-      if (this.goDark == true) {
-        this.$vuetify.theme.dark = true; // eslint-disable-line vue/no-side-effects-in-computed-properties
-        return true;
-      } else {
-        this.$vuetify.theme.dark = false; // eslint-disable-line vue/no-side-effects-in-computed-properties
-        return false;
-      }
-    }
-  }
+    darkModeText: function() {
+      return this.darkMode ? 'Light' : 'Dark';
+    },
+    darkMode: {
+      get() {
+        return this.$store.state.settings.darkMode;
+      },
+      set(val) {
+        this.$store.commit('settings/setDarkMode', val)
+        this.$vuetify.theme.dark = val;
+      },
+    },
+  },
+  beforeMount() {
+    this.$vuetify.theme.dark = this.darkMode;
+  },
 };
 </script>

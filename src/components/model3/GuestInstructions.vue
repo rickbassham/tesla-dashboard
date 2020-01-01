@@ -55,11 +55,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  data() {
-    return {
-      vehicleName: localStorage.vehicleName || 'the Model 3',
-    }
+  computed: {
+    ...mapState('settings', ['vehicleName'])
   },
 };
 </script>
