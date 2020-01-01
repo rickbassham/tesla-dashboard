@@ -5,46 +5,53 @@
         <clock />
       </v-col>
       <v-col cols="6">
-        <weather v-bind:location="{ latitude, longitude }" />
+        <weather />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <wind-map v-bind:location="{ latitude, longitude }" />
+        <wind-map />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import Clock from './Clock.vue';
-import WindMap from './WindMap.vue';
-import Weather from './SmallWeather.vue';
+import Clock from "./Clock.vue";
+import WindMap from "./WindMap.vue";
+import Weather from "./SmallWeather.vue";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
     Clock,
     WindMap,
-    Weather,
+    Weather
   },
-  data() {
-    return {
-      latitude: null,
-      longitude: null,
-    }
+  computed: {
+    ...mapGetters("location", ["location"])
   },
   mounted() {
     const self = this;
 
-    window.navigator.geolocation.getCurrentPosition((pos) => {
-      self.latitude = pos.coords.latitude;
-      self.longitude = pos.coords.longitude;
-    }, (e) => {
-      console.log(e);
-    }, {
-      timeout: 10000,
-      enableHighAccuracy: true,
-    })
+    window.navigator.geolocation.getCurrentPosition(
+      pos => {
+        self.setLocation({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        });
+      },
+      e => {
+        console.log(e);
+      },
+      {
+        timeout: 10000,
+        enableHighAccuracy: true
+      }
+    );
+  },
+  methods: {
+    ...mapMutations("location", ["setLocation"])
   }
 };
 </script>

@@ -36,19 +36,19 @@ export default {
   },
   computed: {
     vehicleName: {
-      get: function() {
-        return localStorage.vehicleName || 'the Model 3';
+      get() {
+        return this.$store.state.settings.vehicleName;
       },
-      set: function(val) {
-        localStorage.vehicleName = val;
+      set(val) {
+        this.$store.commit('settings/setVehicleName', val)
       },
     },
     selectedMap: {
-      get: function() {
-        return localStorage.selectedMap || 'wind_speed';
+      get() {
+        return this.$store.state.settings.selectedMap
       },
-      set: function(val) {
-        localStorage.selectedMap = val;
+      set(val) {
+        this.$store.commit('settings/setSelectedMap', val)
       },
     },
   },
