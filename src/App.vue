@@ -19,7 +19,8 @@
       </v-container>
     </v-content>
     <v-footer app>
-      <v-btn text href="https://github.com/rickbassham/tesla-dashboard">&copy; 2019 Rick Bassham</v-btn>
+      <v-btn text>&copy; 2019 Rick Bassham</v-btn>
+      <v-btn text href="https://github.com/rickbassham/tesla-dashboard" target="_blank"><v-icon left>mdi-github-circle</v-icon>GitHub</v-btn>
       <v-spacer></v-spacer>
       <v-btn text href="https://ts.la/brodrick17858">Tesla Referral Link</v-btn>
     </v-footer>
