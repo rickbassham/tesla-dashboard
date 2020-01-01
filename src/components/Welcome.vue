@@ -34,12 +34,17 @@ export default {
     }
   },
   mounted() {
-    this.$getLocation({
-      enableHighAccuracy: true
-    }).then(coord => {
-      this.latitude = coord.lat;
-      this.longitude = coord.lng;
-    });
+    const self = this;
+
+    window.navigator.geolocation.getCurrentPosition((pos) => {
+      self.latitude = pos.coords.latitude;
+      self.longitude = pos.coords.longitude;
+    }, (e) => {
+      console.log(e);
+    }, {
+      timeout: 10000,
+      enableHighAccuracy: true,
+    })
   }
 };
 </script>

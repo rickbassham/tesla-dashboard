@@ -1,19 +1,14 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list dense>
-        <menu-item name="Home" link="/" icon="mdi-home"></menu-item>
-        <menu-item name="Guest Instructions" link="/guest" icon="mdi-account"></menu-item>
-        <menu-item name="A Better Route Planner" link="/abrp" icon="mdi-map"></menu-item>
-        <menu-item name="Waze" link="/waze" icon="mdi-map"></menu-item>
-        <menu-item name="PlugShare" link="/plugshare" icon="mdi-power-plug"></menu-item>
-        <menu-item name="Settings" link="/setup" icon="mdi-settings"></menu-item>
-      </v-list>
-    </v-navigation-drawer>
-
     <v-app-bar app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Tesla Dashboard</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn class="mx-2" to="/"><v-icon left>mdi-home</v-icon>Home</v-btn>
+      <v-btn class="mx-2" to="/guest"><v-icon left>mdi-account</v-icon>Guest Instructions</v-btn>
+      <v-btn class="mx-2" to="/abrp"><v-icon left>mdi-map</v-icon>A Better Route Planner</v-btn>
+      <v-btn class="mx-2" to="/waze"><v-icon left>mdi-map</v-icon>Waze</v-btn>
+      <v-btn class="mx-2" to="/plugshare"><v-icon left>mdi-power-plug</v-icon>PlugShare</v-btn>
+      <v-btn class="mx-2" to="/setup"><v-icon left>mdi-settings</v-icon>Settings</v-btn>
     </v-app-bar>
 
     <v-content>
@@ -32,11 +27,8 @@
 </template>
 
 <script>
-import MenuItem from './components/MenuItem.vue';
-
 export default {
   components: {
-    MenuItem,
   },
   props: {
     source: String

@@ -27,28 +27,13 @@ export default {
           el.lastChild.remove();
         }
 
-        const self = this;
+        const map = localStorage.selectedMap || "wind_speed";
+
+        console.log(localStorage);
 
         const now = new Date() | this.$moment("YYYY-MM-DD");
-        const windMapURL =
-          '<iframe width="100%" height="100%" style="border: 0;" src="https://maps.darksky.net/@wind_speed,' +
-          now +
-          ",19," +
-          this.location.latitude +
-          "," +
-          this.location.longitude +
-          ',7"></iframe>';
-        postscribe("#" + this.uuid, windMapURL, {
-          done: function() {
-            const el = document.getElementById(self.uuid);
-            const frameDoc = el.firstElementChild.contentDocument;
-            frameDoc.onload = function() {
-              console.log('loaded!');
-              console.log(frameDoc);
-              frameDoc.getElementById("content").style.display = 'none';
-            }
-          }
-        });
+        const windMapURL = `<iframe width="100%" height="100%" style="border: 0;" src="https://maps.darksky.net/@${map},${now},19,${this.location.latitude},${this.location.longitude},7"></iframe>`;
+        postscribe("#" + this.uuid, windMapURL);
       }
     }
   },
