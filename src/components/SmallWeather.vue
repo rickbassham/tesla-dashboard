@@ -28,7 +28,12 @@ export default {
           el.lastChild.remove()
         }
 
-        const weatherTag = tags.scriptTag(`https://darksky.net/widget/small/${this.location.latitude},${this.location.longitude}/us12/en.js?width=undefined&title=Full Forecast&textColor=333333&bgColor=FFFFFF&skyColor=333&fontFamily=Default&customFont=&units=us`);
+        const colors = {
+          textColor: '333333',
+          skyColor: '333333'
+        };
+
+        const weatherTag = tags.scriptTag(`https://darksky.net/widget/small/${this.location.latitude},${this.location.longitude}/us12/en.js?textColor=${colors.textColor}&bgColor=transparent&skyColor=${colors.skyColor}&fontFamily=Default&customFont=&units=us`);
         postscribe("#" + this.uuid, weatherTag);
       }
     },
