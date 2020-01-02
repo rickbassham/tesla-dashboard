@@ -54,8 +54,7 @@ export default {
     };
   },
   mounted() {
-    if (this.location.latitude && this.location.longitude)
-      postscribe("#" + this.uuid, this.scriptTag);
+    this.updateMap();
   },
   methods: {
     updateMap() {
