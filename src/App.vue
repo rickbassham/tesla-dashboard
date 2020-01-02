@@ -63,7 +63,18 @@ export default {
     },
   },
   beforeMount() {
-    this.$vuetify.theme.dark = this.darkMode;
+    if (matchMedia) {
+      const match = matchMedia('(prefers-color-scheme: dark)');
+
+      this.darkMode = match.matches;
+
+      if (match.addEventListener) {
+        const self = this;
+        match.addEventListener("change", function(e) {
+          self.darkMode = e.matches;
+        });
+      }
+    }
   },
 };
 </script>
