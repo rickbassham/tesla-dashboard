@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     colors: function() {
-      const fg = this.darkMode ? "ababab" : "333333";
+      const fg = this.darkMode ? "ffffff" : "333333";
       const params = {
         textColor: fg,
         htColor: fg,
