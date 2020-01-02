@@ -10,6 +10,7 @@
 import { mapGetters, mapState } from "vuex";
 import postscribe from "postscribe";
 
+const debounce = require('lodash.debounce');
 const uuidv4 = require("uuid/v4");
 
 export default {
@@ -50,7 +51,8 @@ export default {
   },
   data() {
     return {
-      uuid: uuidv4()
+      uuid: uuidv4(),
+      updating: false,
     };
   },
   mounted() {
@@ -58,13 +60,16 @@ export default {
   },
   methods: {
     updateMap() {
-      const el = document.getElementById(this.uuid);
-      if (el.lastChild) {
-        el.lastChild.remove();
-      }
+      const self = this;
+      debounce(function() {
+        const el = document.getElementById(self.uuid);
+        if (el.lastChild) {
+          el.lastChild.remove();
+        }
 
-      if (this.location.latitude && this.location.longitude)
-        postscribe("#" + this.uuid, this.scriptTag);
+        if (self.location.latitude && self.location.longitude)
+          postscribe("#" + self.uuid, self.scriptTag);
+      }, 100)()
     }
   }
 };
