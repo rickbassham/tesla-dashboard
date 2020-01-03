@@ -24,7 +24,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height align-start" fluid>
         <template v-if="$route.matched.length">
           <router-view></router-view>
         </template>
@@ -50,21 +50,21 @@ export default {
   },
   computed: {
     darkModeText: function() {
-      return this.darkMode ? 'Light' : 'Dark';
+      return this.darkMode ? "Light" : "Dark";
     },
     darkMode: {
       get() {
         return this.$store.state.settings.darkMode;
       },
       set(val) {
-        this.$store.commit('settings/setDarkMode', val)
+        this.$store.commit("settings/setDarkMode", val);
         this.$vuetify.theme.dark = val;
-      },
-    },
+      }
+    }
   },
   beforeMount() {
     if (matchMedia) {
-      const match = matchMedia('(prefers-color-scheme: dark)');
+      const match = matchMedia("(prefers-color-scheme: dark)");
 
       this.darkMode = match.matches;
 
@@ -75,6 +75,6 @@ export default {
         });
       }
     }
-  },
+  }
 };
 </script>
