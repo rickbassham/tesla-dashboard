@@ -63,7 +63,7 @@ export default {
       const self = this;
       debounce(function() {
         const el = document.getElementById(self.uuid);
-        if (el.lastChild) {
+        while (el.lastChild) {
           el.lastChild.remove();
         }
 
