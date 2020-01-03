@@ -30,7 +30,8 @@ export default {
         { text: "Temperature", value: "temperature" },
         { text: "Cloud Cover", value: "cloud_cover" },
         { text: "Radar", value: "radar" },
-        { text: "Wind Speed", value: "wind_speed" }
+        { text: "Wind Speed", value: "wind_speed" },
+        { text: "Feels Like", value: "apparent_temperature" }
       ],
     };
   },
