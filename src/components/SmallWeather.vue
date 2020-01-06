@@ -10,6 +10,8 @@
 import { mapGetters, mapState } from "vuex";
 import postscribe from "postscribe";
 
+import { scriptTag } from "../scripts/tag";
+
 const debounce = require("lodash.debounce");
 const uuidv4 = require("uuid/v4");
 
@@ -40,11 +42,14 @@ export default {
         .map(key => key + "=" + params[key])
         .join("&");
     },
-    scriptTag: function() {
-      return (
-        `<script type="text/javascript" src="https://darksky.net/widget/small/${this.location.latitude},${this.location.longitude}/us12/en.js?bgColor=transparent&fontFamily=Default&customFont=&units=us&${this.colors}"></scr` +
-        "ipt>"
-      );
+    src: function() {
+      return `https://darksky.net/widget/small/${this.lat},${this.lng}/us12/en.js?bgColor=transparent&fontFamily=Default&customFont=&units=us&${this.colors}`;
+    },
+    lat: function() {
+      return this.location.latitude;
+    },
+    lng: function() {
+      return this.location.longitude;
     },
     ...mapGetters("location", ["location"]),
     ...mapState("settings", ["darkMode"])
@@ -68,7 +73,7 @@ export default {
         }
 
         if (self.location.latitude && self.location.longitude)
-          postscribe("#" + self.uuid, self.scriptTag);
+          postscribe("#" + self.uuid, scriptTag(self.src));
       }, 100)();
     }
   }
