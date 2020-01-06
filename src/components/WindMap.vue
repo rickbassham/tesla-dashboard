@@ -2,12 +2,7 @@
   <v-card class="mx-auto my-1" height="510">
     <v-card-text class="fill-height">
       <div :id="uuid" class="container fill-height">
-        <iframe
-          width="100%"
-          height="100%"
-          style="border: 0;"
-          :src="`https://maps.darksky.net/@${this.selectedMap},${now},19,${this.location.latitude},${this.location.longitude},7`"
-        ></iframe>
+        <iframe width="100%" height="100%" style="border: 0;" :src="src"></iframe>
       </div>
     </v-card-text>
   </v-card>
@@ -21,6 +16,15 @@ export default {
   computed: {
     now: function() {
       return new Date() | this.$moment("YYYY-MM-DD");
+    },
+    src: function() {
+      return `https://maps.darksky.net/@${this.selectedMap},${this.now},19,${this.lat},${this.lng},7`;
+    },
+    lat: function() {
+      return this.location.latitude;
+    },
+    lng: function() {
+      return this.location.longitude;
     },
     ...mapGetters("location", ["location"]),
     ...mapState("settings", ["selectedMap"])
