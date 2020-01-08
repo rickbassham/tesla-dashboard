@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/rickbassham/tesla-dashboard/compare/1.1.0...1.1.1) (2020-01-08)
+
+
+### Bug Fixes
+
+* format nginx.conf ([77890fd](https://github.com/rickbassham/tesla-dashboard/commit/77890fd134f2568d0e073bcf571275c79a685124))
+
 # [1.1.0](https://github.com/rickbassham/tesla-dashboard/compare/1.0.0...1.1.0) (2020-01-08)
 
 
