@@ -32,13 +32,13 @@
           <guest-instructions />
         </v-container>
         <v-container :class="getClass('abrp')" fluid>
-          <a-b-r-p />
+          <frame :src="this.frameSrc['abrp']" />
         </v-container>
         <v-container :class="getClass('waze')" fluid>
-          <waze />
+          <frame :src="this.frameSrc['waze']" />
         </v-container>
         <v-container :class="getClass('plugshare')" fluid>
-          <plug-share />
+          <frame :src="this.frameSrc['plugshare']" />
         </v-container>
         <v-container :class="getClass('settings')" fluid>
           <settings />
@@ -60,26 +60,32 @@
 <script>
 import Welcome from "./components/Welcome.vue";
 import GuestInstructions from "./components/model3/GuestInstructions.vue";
-import ABRP from "./components/ABRP.vue";
-import Waze from "./components/Waze.vue";
-import PlugShare from "./components/PlugShare.vue";
 import Settings from "./components/Setup.vue";
+import Frame from "./components/Frame.vue";
 
 export default {
   components: {
     Welcome,
     GuestInstructions,
-    ABRP,
-    Waze,
-    PlugShare,
-    Settings
+    Settings,
+    Frame,
   },
   props: {
     source: String
   },
   data: function() {
     return {
-      active: "home"
+      active: "home",
+      frameSrc: {
+        "abrp": "",
+        "waze": "",
+        "plugshare": "",
+      },
+      defaultFrameSrc: {
+        "abrp": "https://new.abetterrouteplanner.com/",
+        "waze": "https://teslawaze.azurewebsites.net/",
+        "plugshare": "https://www.plugshare.com/",
+      },
     };
   },
   computed: {
@@ -99,6 +105,10 @@ export default {
   methods: {
     btnClick: function(id) {
       this.active = id;
+
+      if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
+        this.frameSrc[id] = this.defaultFrameSrc[id];
+      }
     },
     getClass: function(id) {
       return this.active === id ? "fill-height align-start" : "d-none";
