@@ -21,6 +21,7 @@ import Clock from "./Clock.vue";
 import WindMap from "./WindMap.vue";
 import Weather from "./SmallWeather.vue";
 import { mapGetters, mapMutations } from "vuex";
+import { getDistance } from "geolib";
 
 export default {
   components: {
@@ -34,12 +35,17 @@ export default {
   mounted() {
     const self = this;
 
-    window.navigator.geolocation.getCurrentPosition(
+    window.navigator.geolocation.watchPosition(
       pos => {
-        self.setLocation({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude
-        });
+        const dist = Math.abs(getDistance(pos.coords, self.location));
+
+        // update location if we are more than 5km from the last location
+        if (dist > 5000) {
+          self.setLocation({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude
+          });
+        }
       },
       e => {
         console.log(e);
