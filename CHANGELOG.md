@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/rickbassham/tesla-dashboard/compare/1.1.1...1.1.2) (2020-01-08)
+
+
+### Bug Fixes
+
+* add license file ([4c69e42](https://github.com/rickbassham/tesla-dashboard/commit/4c69e4248da3bf8718c44190c1eff7263469bd02))
+* update readme ([2bad2ff](https://github.com/rickbassham/tesla-dashboard/commit/2bad2ff8cd732fd087e45d5704e643ecb7ff2a53))
+
 ## [1.1.1](https://github.com/rickbassham/tesla-dashboard/compare/1.1.0...1.1.1) (2020-01-08)
 
 
