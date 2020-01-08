@@ -18,7 +18,7 @@ export default {
       return new Date() | this.$moment("YYYY-MM-DD");
     },
     src: function() {
-      return `https://maps.darksky.net/@${this.selectedMap},${this.now},19,${this.lat},${this.lng},7`;
+      return `https://maps.darksky.net/@${this.selectedMap},${this.now},19,${this.lat},${this.lng},8`;
     },
     lat: function() {
       return this.location.latitude;
