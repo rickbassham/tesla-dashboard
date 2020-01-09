@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/rickbassham/tesla-dashboard/compare/1.1.3...1.2.0) (2020-01-09)
+
+
+### Features
+
+* add debug panel for errors and location data ([30b40cb](https://github.com/rickbassham/tesla-dashboard/commit/30b40cb3cd272abfcaf4a3842855e757fdf337d5))
+
 ## [1.1.3](https://github.com/rickbassham/tesla-dashboard/compare/1.1.2...1.1.3) (2020-01-08)
 
 
