@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/rickbassham/tesla-dashboard/compare/1.3.4...1.3.5) (2020-01-10)
+
+
+### Bug Fixes
+
+* change the release message ([7e8a5d2](https://github.com/rickbassham/tesla-dashboard/commit/7e8a5d2fe1d5639535407ef5682c7b17231be3ba))
+
 ## [1.3.4](https://github.com/rickbassham/tesla-dashboard/compare/1.3.3...1.3.4) (2020-01-10)
 
 
