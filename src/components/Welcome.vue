@@ -86,6 +86,8 @@ export default {
   },
   methods: {
     locationUpdated: function(pos) {
+      this.error = {};
+
       this.rawLocation = Object.assign({}, this.rawLocation, pos.coords);
       const dist = Math.abs(getDistance(pos.coords, this.location));
 
