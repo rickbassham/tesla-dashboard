@@ -13,4 +13,6 @@ jobs:
       - name: npm install
         run: npm ci
       - name: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release --no-dry-run
