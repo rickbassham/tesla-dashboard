@@ -31,4 +31,6 @@ store.subscribe((mutation, state) => {
   localStorage.setItem('store', JSON.stringify(state));
 });
 
+store.dispatch('location/startPollingLocation')
+
 export default store;

@@ -40,7 +40,7 @@ export function watchLocation(opts, success, error) {
   if (supported) {
     setInterval(function() {
       getLocation(opts).then(success).catch(error);
-    }, 10000, opts);
+    }, 1000, opts);
   } else {
     error(err_to_object({ message: "unsupported browser" }));
   }

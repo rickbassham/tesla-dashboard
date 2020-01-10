@@ -47,62 +47,28 @@
 import Clock from "./Clock.vue";
 import WindMap from "./WindMap.vue";
 import Weather from "./SmallWeather.vue";
-import { mapGetters, mapMutations } from "vuex";
-import { getDistance } from "geolib";
-import { getLocation,watchLocation } from "../scripts/geo.js";
+import { mapGetters,  mapState } from "vuex";
 
 export default {
   components: {
     Clock,
     WindMap,
-    Weather
+    Weather,
   },
   computed: {
+    ...mapState("location", ["rawLocation"]),
+    ...mapGetters("location", ["location"]),
     debugData: function() {
       let data = {};
       data = Object.assign(data, this.rawLocation);
       data = Object.assign(data, {error: this.error});
       return data;
     },
-    ...mapGetters("location", ["location"])
   },
   data: function() {
     return {
-      rawLocation: {},
       error: {},
     };
   },
-  mounted() {
-    const opts = {
-      timeout: 5000,
-      enableHighAccuracy: false
-    };
-
-    getLocation(opts)
-      .then(this.locationUpdated)
-      .catch(this.locationError);
-
-    watchLocation(opts, this.locationUpdated, this.locationError);
-  },
-  methods: {
-    locationUpdated: function(pos) {
-      this.error = {};
-
-      this.rawLocation = Object.assign({}, this.rawLocation, pos.coords);
-      const dist = Math.abs(getDistance(pos.coords, this.location));
-
-      // update location if we are more than 5km from the last location
-      if (dist > 5000) {
-        this.setLocation({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude
-        });
-      }
-    },
-    locationError: function(e) {
-      this.error = e;
-    },
-    ...mapMutations("location", ["setLocation"])
-  }
 };
 </script>
