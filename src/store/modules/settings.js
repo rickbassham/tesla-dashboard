@@ -1,6 +1,7 @@
 const state = {
   vehicleName: 'the Model 3',
   selectedMap: 'wind_speed',
+  newABRP: true,
   darkMode: false,
 };
 
@@ -13,6 +14,9 @@ const mutations = {
   },
   setDarkMode(state, darkMode) {
     state.darkMode = darkMode;
+  },
+  setNewABRP(state, newABRP) {
+    state.newABRP = newABRP;
   },
 }
 
