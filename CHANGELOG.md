@@ -1,3 +1,10 @@
+## [1.3.9](https://github.com/rickbassham/tesla-dashboard/compare/1.3.8...1.3.9) (2020-01-10)
+
+
+### Bug Fixes
+
+* use a different token so workflows trigger ([d91bd67](https://github.com/rickbassham/tesla-dashboard/commit/d91bd678592c5b3f8a26a0cfaefc031d77d69af4))
+
 ## [1.3.8](https://github.com/rickbassham/tesla-dashboard/compare/1.3.7...1.3.8) (2020-01-10)
 
 
