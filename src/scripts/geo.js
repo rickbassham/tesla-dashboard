@@ -39,10 +39,9 @@ export function watchLocation(opts, success, error) {
     navigator.geolocation.watchPosition(pos => {
       success(pos_to_object(pos));
     }, e => {
-      let event = new CustomEvent("location_error", err_to_object(e));
-      window.dispatchEvent(event);
+      error(err_to_object(e));
     }, opts);
   } else {
-    error(err_to_object({message: "unsupported browser"}));
+    error(err_to_object({ message: "unsupported browser" }));
   }
 }
