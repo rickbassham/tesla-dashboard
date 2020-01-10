@@ -47,13 +47,13 @@
 import Clock from "./Clock.vue";
 import WindMap from "./WindMap.vue";
 import Weather from "./SmallWeather.vue";
-import { mapGetters,  mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   components: {
     Clock,
     WindMap,
-    Weather,
+    Weather
   },
   computed: {
     ...mapState("location", ["rawLocation"]),
@@ -61,14 +61,14 @@ export default {
     debugData: function() {
       let data = {};
       data = Object.assign(data, this.rawLocation);
-      data = Object.assign(data, {error: this.error});
+      data = Object.assign(data, { error: this.error });
       return data;
-    },
+    }
   },
   data: function() {
     return {
-      error: {},
+      error: {}
     };
-  },
+  }
 };
 </script>
