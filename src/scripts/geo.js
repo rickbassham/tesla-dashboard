@@ -20,9 +20,11 @@ function err_to_object(e) {
   };
 }
 
+const supported = navigator.geolocation && navigator.geolocation.getCurrentPosition;
+
 export async function getLocation(opts) {
   return new Promise((resolve, reject) => {
-    if (navigator.geolocation && navigator.geolocation.getCurrentPosition) {
+    if (supported) {
       navigator.geolocation.getCurrentPosition(pos => {
         resolve(pos_to_object(pos));
       }, e => {
@@ -35,12 +37,10 @@ export async function getLocation(opts) {
 }
 
 export function watchLocation(opts, success, error) {
-  if (navigator.geolocation && navigator.geolocation.watchPosition) {
-    navigator.geolocation.watchPosition(pos => {
-      success(pos_to_object(pos));
-    }, e => {
-      error(err_to_object(e));
-    }, opts);
+  if (supported) {
+    setInterval(function() {
+      getLocation(opts).then(success).catch(error);
+    }, 10000, opts);
   } else {
     error(err_to_object({ message: "unsupported browser" }));
   }
