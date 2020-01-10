@@ -1,3 +1,10 @@
+## [1.3.10](https://github.com/rickbassham/tesla-dashboard/compare/1.3.9...1.3.10) (2020-01-10)
+
+
+### Bug Fixes
+
+* be explicit in the Dockerfile ([43530d5](https://github.com/rickbassham/tesla-dashboard/commit/43530d555b9c8a7cde0e37ed8f07ad53e837673a))
+
 ## [1.3.9](https://github.com/rickbassham/tesla-dashboard/compare/1.3.8...1.3.9) (2020-01-10)
 
 
