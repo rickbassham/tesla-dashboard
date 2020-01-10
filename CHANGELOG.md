@@ -1,3 +1,10 @@
+## [1.3.8](https://github.com/rickbassham/tesla-dashboard/compare/1.3.7...1.3.8) (2020-01-10)
+
+
+### Bug Fixes
+
+* try using created trigger for release ([0802ca1](https://github.com/rickbassham/tesla-dashboard/commit/0802ca1777bf071b10f21efd0da55b6dd64942e8))
+
 ## [1.3.7](https://github.com/rickbassham/tesla-dashboard/compare/1.3.6...1.3.7) (2020-01-10)
 
 
