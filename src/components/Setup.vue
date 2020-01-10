@@ -8,6 +8,7 @@
             <v-form>
               <v-text-field label="Vehicle Name" type="text" v-model="vehicleName" />
               <v-select :items="mapOptions" label="Weather Map" v-model="selectedMap"></v-select>
+              <v-checkbox v-model="newABRP" label="Use New ABRP"></v-checkbox>
             </v-form>
           </v-card-text>
         </v-card>
@@ -45,7 +46,15 @@ export default {
       set(val) {
         this.$store.commit("settings/setSelectedMap", val);
       }
-    }
+    },
+    newABRP: {
+      get() {
+        return this.$store.state.settings.newABRP;
+      },
+      set(val) {
+        this.$store.commit("settings/setNewABRP", val);
+      }
+    },
   }
 };
 </script>

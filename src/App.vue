@@ -62,6 +62,7 @@ import Welcome from "./components/Welcome.vue";
 import GuestInstructions from "./components/model3/GuestInstructions.vue";
 import Settings from "./components/Setup.vue";
 import Frame from "./components/Frame.vue";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -100,7 +101,23 @@ export default {
         this.$store.commit("settings/setDarkMode", val);
         this.$vuetify.theme.dark = val;
       }
-    }
+    },
+    ...mapState("settings", ["newABRP"])
+  },
+  watch: {
+    newABRP: function(val) {
+      if (val) {
+        this.defaultFrameSrc["abrp"] = "https://new.abetterrouteplanner.com/";
+        if (this.frameSrc["abrp"]) {
+          this.frameSrc["abrp"] = "https://new.abetterrouteplanner.com/";
+        }
+      } else {
+        this.defaultFrameSrc["abrp"] = "https://abetterrouteplanner.com/";
+        if (this.frameSrc["abrp"]) {
+          this.frameSrc["abrp"] = "https://abetterrouteplanner.com/";
+        }
+      }
+    },
   },
   methods: {
     btnClick: function(id) {
@@ -130,6 +147,6 @@ export default {
         });
       }
     }
-  }
+  },
 };
 </script>
