@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/rickbassham/tesla-dashboard/compare/1.3.0...1.3.1) (2020-01-10)
+
+
+### Bug Fixes
+
+* choose the correct abrp to load ([b864c4f](https://github.com/rickbassham/tesla-dashboard/commit/b864c4f319e097ff1a1bbea09febc6edf6629f4a))
+
 # [1.3.0](https://github.com/rickbassham/tesla-dashboard/compare/1.2.1...1.3.0) (2020-01-10)
 
 
