@@ -1,3 +1,11 @@
+## [1.3.7](https://github.com/rickbassham/tesla-dashboard/compare/1.3.6...1.3.7) (2020-01-10)
+
+
+### Bug Fixes
+
+* add github release ([e61f0f5](https://github.com/rickbassham/tesla-dashboard/commit/e61f0f557eb409d19bc715c2aa1981455d0279a1))
+* include GITHUB_TOKEN in release ([3a3ad6a](https://github.com/rickbassham/tesla-dashboard/commit/3a3ad6af8d7bb0d519a590fcd8c3667086b67ef0))
+
 ## [1.3.6](https://github.com/rickbassham/tesla-dashboard/compare/1.3.5...1.3.6) (2020-01-10)
 
 
