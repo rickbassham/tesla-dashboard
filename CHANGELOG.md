@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/rickbassham/tesla-dashboard/compare/1.3.5...1.3.6) (2020-01-10)
+
+
+### Bug Fixes
+
+* update docker login ([83675b6](https://github.com/rickbassham/tesla-dashboard/commit/83675b6353d4e5e8b8cb059d291075bc647473ba))
+
 ## [1.3.5](https://github.com/rickbassham/tesla-dashboard/compare/1.3.4...1.3.5) (2020-01-10)
 
 
