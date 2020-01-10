@@ -82,14 +82,10 @@ export default {
         "waze": "",
         "plugshare": "",
       },
-      defaultFrameSrc: {
-        "abrp": "https://new.abetterrouteplanner.com/",
-        "waze": "https://teslawaze.azurewebsites.net/",
-        "plugshare": "https://www.plugshare.com/",
-      },
     };
   },
   computed: {
+    ...mapState("settings", ["newABRP"]),
     darkModeText: function() {
       return this.darkMode ? "Light" : "Dark";
     },
@@ -102,17 +98,21 @@ export default {
         this.$vuetify.theme.dark = val;
       }
     },
-    ...mapState("settings", ["newABRP"])
+    defaultFrameSrc: function() {
+      return {
+        "abrp": this.newABRP ? "https://new.abetterrouteplanner.com/" : "https://abetterrouteplanner.com/",
+        "waze": "https://teslawaze.azurewebsites.net/",
+        "plugshare": "https://www.plugshare.com/",
+      };
+    },
   },
   watch: {
     newABRP: function(val) {
       if (val) {
-        this.defaultFrameSrc["abrp"] = "https://new.abetterrouteplanner.com/";
         if (this.frameSrc["abrp"]) {
           this.frameSrc["abrp"] = "https://new.abetterrouteplanner.com/";
         }
       } else {
-        this.defaultFrameSrc["abrp"] = "https://abetterrouteplanner.com/";
         if (this.frameSrc["abrp"]) {
           this.frameSrc["abrp"] = "https://abetterrouteplanner.com/";
         }
