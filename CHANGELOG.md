@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/rickbassham/tesla-dashboard/compare/1.2.0...1.2.1) (2020-01-10)
+
+
+### Bug Fixes
+
+* fix error handling for watchLocation ([0a13ac1](https://github.com/rickbassham/tesla-dashboard/commit/0a13ac10d21a29fd1bf11cfbab718d8dd246c2e7))
+
 # [1.2.0](https://github.com/rickbassham/tesla-dashboard/compare/1.1.3...1.2.0) (2020-01-09)
 
 
