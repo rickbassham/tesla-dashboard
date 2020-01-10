@@ -13,4 +13,4 @@ jobs:
       - name: npm install
         run: npm ci
       - name: release
-        run: semantic-release --no-dry-run
+        run: npx semantic-release --no-dry-run
