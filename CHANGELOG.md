@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/rickbassham/tesla-dashboard/compare/1.3.2...1.3.3) (2020-01-10)
+
+
+### Bug Fixes
+
+* use correct filter for build ([e48ea8f](https://github.com/rickbassham/tesla-dashboard/commit/e48ea8f67db8d0e9de143dbf3ed642f9d4fe14a6))
+
 ## [1.3.2](https://github.com/rickbassham/tesla-dashboard/compare/1.3.1...1.3.2) (2020-01-10)
 
 
