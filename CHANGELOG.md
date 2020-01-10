@@ -1,3 +1,11 @@
+## [1.3.2](https://github.com/rickbassham/tesla-dashboard/compare/1.3.1...1.3.2) (2020-01-10)
+
+
+### Bug Fixes
+
+* clear the error on successful location get ([0b0e483](https://github.com/rickbassham/tesla-dashboard/commit/0b0e483b8d190c16d423cbe037c7bf1b64e5f5e6))
+* watchPosition doesn't seem to work in the car ([61d565d](https://github.com/rickbassham/tesla-dashboard/commit/61d565d40d7a24a8a5c0727dfd128a9b8071e33f))
+
 ## [1.3.1](https://github.com/rickbassham/tesla-dashboard/compare/1.3.0...1.3.1) (2020-01-10)
 
 
