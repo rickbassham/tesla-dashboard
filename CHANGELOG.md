@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/rickbassham/tesla-dashboard/compare/1.2.1...1.3.0) (2020-01-10)
+
+
+### Features
+
+* add option to use new or old ABRP ([0227a5a](https://github.com/rickbassham/tesla-dashboard/commit/0227a5a1f695923196ae3ec077c041af04d8fa45))
+
 ## [1.2.1](https://github.com/rickbassham/tesla-dashboard/compare/1.2.0...1.2.1) (2020-01-10)
 
 
