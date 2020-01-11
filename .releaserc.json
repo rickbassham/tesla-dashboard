@@ -1,5 +1,4 @@
 {
-  "branch": "master",
   "tagFormat": "${version}",
   "dryRun": true,
   "ci": false,
