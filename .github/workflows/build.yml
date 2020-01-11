@@ -21,5 +21,6 @@ jobs:
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           docker tag rickbassham/tesla-dashboard:latest rickbassham/tesla-dashboard:$VERSION
           docker push rickbassham/tesla-dashboard:$VERSION
-          echo "$VERSION" | grep -qve '^[0-9]\+\.[0-9]\+\.[0-9]\+$' && echo "skipping" || \
+          echo "$VERSION" | grep -qve '^[0-9]\+\.[0-9]\+\.[0-9]\+$' && \
+            docker push rickbassham/tesla-dashboard:beta || \
             docker push rickbassham/tesla-dashboard:latest
