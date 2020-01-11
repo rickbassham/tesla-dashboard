@@ -1,3 +1,10 @@
+## [1.3.12-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12-beta.1...1.3.12-beta.2) (2020-01-11)
+
+
+### Bug Fixes
+
+* push a beta tag to docker hub on beta releases ([db1db6c](https://github.com/rickbassham/tesla-dashboard/commit/db1db6c9131f23ea07df5765cfc46d6028c3aba4))
+
 ## [1.3.12-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.3.11...1.3.12-beta.1) (2020-01-11)
 
 
