@@ -1,3 +1,10 @@
+## [1.3.12-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.3.11...1.3.12-beta.1) (2020-01-11)
+
+
+### Bug Fixes
+
+* add beta branch for testing ([e1f234d](https://github.com/rickbassham/tesla-dashboard/commit/e1f234d7dcdf99c07e28d688ac09f7f8a059680c))
+
 ## [1.3.11](https://github.com/rickbassham/tesla-dashboard/compare/1.3.10...1.3.11) (2020-01-10)
 
 
