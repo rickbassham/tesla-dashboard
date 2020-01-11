@@ -1,3 +1,10 @@
+## [1.3.12-beta.3](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12-beta.2...1.3.12-beta.3) (2020-01-11)
+
+
+### Bug Fixes
+
+* update logic for deploying betas ([da73fe8](https://github.com/rickbassham/tesla-dashboard/commit/da73fe8d3449e44187d3098a9c4b111f21364bfb))
+
 ## [1.3.12-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12-beta.1...1.3.12-beta.2) (2020-01-11)
 
 
