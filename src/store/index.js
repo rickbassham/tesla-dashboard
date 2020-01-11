@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import location from './modules/location'
 import settings from './modules/settings'
+import version from './modules/version'
 
 Vue.use(Vuex)
 
@@ -10,6 +11,7 @@ const store = new Vuex.Store({
   modules: {
     location,
     settings,
+    version,
   },
   mutations: {
     initialiseStore(state) {
@@ -28,7 +30,9 @@ const store = new Vuex.Store({
 
 store.subscribe((mutation, state) => {
   // Store the state object as a JSON string
-  localStorage.setItem('store', JSON.stringify(state));
+  const data = Object.assign({}, state);
+  delete data.version;
+  localStorage.setItem('store', JSON.stringify(data));
 });
 
 store.dispatch('location/startPollingLocation')
