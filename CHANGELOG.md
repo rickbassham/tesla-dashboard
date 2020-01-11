@@ -1,3 +1,10 @@
+# [1.4.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12-beta.3...1.4.0-beta.1) (2020-01-11)
+
+
+### Features
+
+* add version info to footer ([94823ba](https://github.com/rickbassham/tesla-dashboard/commit/94823ba37986761d0d89905179f56388f5466826))
+
 ## [1.3.12-beta.3](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12-beta.2...1.3.12-beta.3) (2020-01-11)
 
 
