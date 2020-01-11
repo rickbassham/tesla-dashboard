@@ -50,6 +50,7 @@
       <v-btn text href="https://github.com/rickbassham/tesla-dashboard" target="_blank">
         <v-icon left>mdi-github-circle</v-icon>GitHub
       </v-btn>
+      <v-btn text>{{ appVersion }}</v-btn>
       <v-spacer></v-spacer>
       <v-btn text @click="() => (this.darkMode = !this.darkMode)">{{ this.darkModeText }}</v-btn>
       <v-btn text href="https://ts.la/brodrick17858">Tesla Referral Link</v-btn>
@@ -62,7 +63,7 @@ import Welcome from "./components/Welcome.vue";
 import GuestInstructions from "./components/model3/GuestInstructions.vue";
 import Settings from "./components/Setup.vue";
 import Frame from "./components/Frame.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -86,6 +87,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["newABRP"]),
+    ...mapGetters("version", ["appVersion"]),
     darkModeText: function() {
       return this.darkMode ? "Light" : "Dark";
     },
