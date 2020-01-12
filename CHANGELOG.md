@@ -1,3 +1,10 @@
+# [1.6.0-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.6.0-beta.1...1.6.0-beta.2) (2020-01-12)
+
+
+### Bug Fixes
+
+* check active tab and set default if empty ([c37e26c](https://github.com/rickbassham/tesla-dashboard/commit/c37e26c7eb9b1fc65cae03237653449aeef83c74))
+
 # [1.6.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.5.0...1.6.0-beta.1) (2020-01-12)
 
 
