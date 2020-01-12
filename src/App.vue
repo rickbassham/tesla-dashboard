@@ -70,19 +70,18 @@ export default {
     Welcome,
     GuestInstructions,
     Settings,
-    Frame,
+    Frame
   },
   props: {
     source: String
   },
   data: function() {
     return {
-      active: "home",
       frameSrc: {
-        "abrp": "",
-        "waze": "",
-        "plugshare": "",
-      },
+        abrp: "",
+        waze: "",
+        plugshare: ""
+      }
     };
   },
   computed: {
@@ -100,13 +99,23 @@ export default {
         this.$vuetify.theme.dark = val;
       }
     },
+    activeTab: {
+      get() {
+        return this.$store.state.settings.activeTab;
+      },
+      set(val) {
+        this.$store.commit("settings/setActiveTab", val);
+      }
+    },
     defaultFrameSrc: function() {
       return {
-        "abrp": this.newABRP ? "https://new.abetterrouteplanner.com/" : "https://abetterrouteplanner.com/",
-        "waze": "https://teslawaze.azurewebsites.net/",
-        "plugshare": "https://www.plugshare.com/",
+        abrp: this.newABRP
+          ? "https://new.abetterrouteplanner.com/"
+          : "https://abetterrouteplanner.com/",
+        waze: "https://teslawaze.azurewebsites.net/",
+        plugshare: "https://www.plugshare.com/"
       };
-    },
+    }
   },
   watch: {
     newABRP: function(val) {
@@ -119,28 +128,32 @@ export default {
           this.frameSrc["abrp"] = "https://abetterrouteplanner.com/";
         }
       }
-    },
+    }
   },
   methods: {
     btnClick: function(id) {
-      this.active = id;
+      this.activeTab = id;
 
-      this.$gtag.event('navclicked', {
-        'event_label': id,
-      })
+      this.$gtag.event("navclicked", {
+        event_label: id
+      });
 
       if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
         this.frameSrc[id] = this.defaultFrameSrc[id];
       }
     },
     getClass: function(id) {
-      return this.active === id ? "fill-height align-start" : "d-none";
+      return this.activeTab === id ? "fill-height align-start" : "d-none";
     },
     getColor: function(id) {
-      return this.active === id ? "primary" : "";
+      return this.activeTab === id ? "primary" : "";
     }
   },
   beforeMount() {
+    if (!this.activeTab) {
+      this.activeTab = "home";
+    }
+
     if (matchMedia) {
       const match = matchMedia("(prefers-color-scheme: dark)");
 
@@ -153,6 +166,6 @@ export default {
         });
       }
     }
-  },
+  }
 };
 </script>
