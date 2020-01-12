@@ -70,7 +70,7 @@ export default {
     Welcome,
     GuestInstructions,
     Settings,
-    Frame,
+    Frame
   },
   props: {
     source: String
@@ -78,10 +78,10 @@ export default {
   data: function() {
     return {
       frameSrc: {
-        "abrp": "",
-        "waze": "",
-        "plugshare": "",
-      },
+        abrp: "",
+        waze: "",
+        plugshare: ""
+      }
     };
   },
   computed: {
@@ -109,11 +109,13 @@ export default {
     },
     defaultFrameSrc: function() {
       return {
-        "abrp": this.newABRP ? "https://new.abetterrouteplanner.com/" : "https://abetterrouteplanner.com/",
-        "waze": "https://teslawaze.azurewebsites.net/",
-        "plugshare": "https://www.plugshare.com/",
+        abrp: this.newABRP
+          ? "https://new.abetterrouteplanner.com/"
+          : "https://abetterrouteplanner.com/",
+        waze: "https://teslawaze.azurewebsites.net/",
+        plugshare: "https://www.plugshare.com/"
       };
-    },
+    }
   },
   watch: {
     newABRP: function(val) {
@@ -126,15 +128,15 @@ export default {
           this.frameSrc["abrp"] = "https://abetterrouteplanner.com/";
         }
       }
-    },
+    }
   },
   methods: {
     btnClick: function(id) {
       this.activeTab = id;
 
-      this.$gtag.event('navclicked', {
-        'event_label': id,
-      })
+      this.$gtag.event("navclicked", {
+        event_label: id
+      });
 
       if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
         this.frameSrc[id] = this.defaultFrameSrc[id];
@@ -148,6 +150,10 @@ export default {
     }
   },
   beforeMount() {
+    if (!this.activeTab) {
+      this.activeTab = "home";
+    }
+
     if (matchMedia) {
       const match = matchMedia("(prefers-color-scheme: dark)");
 
@@ -160,6 +166,6 @@ export default {
         });
       }
     }
-  },
+  }
 };
 </script>
