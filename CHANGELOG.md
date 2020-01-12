@@ -1,3 +1,10 @@
+# [1.6.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.5.0...1.6.0-beta.1) (2020-01-12)
+
+
+### Features
+
+* remember active tab ([e7f4a93](https://github.com/rickbassham/tesla-dashboard/commit/e7f4a93f67c6c5b5848d5e9605d68f0447231b83))
+
 # [1.5.0](https://github.com/rickbassham/tesla-dashboard/compare/1.4.0...1.5.0) (2020-01-12)
 
 
