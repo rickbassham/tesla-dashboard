@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/rickbassham/tesla-dashboard/compare/1.6.0...1.6.1) (2020-01-12)
+
+
+### Bug Fixes
+
+* add google site verification ([46ce608](https://github.com/rickbassham/tesla-dashboard/commit/46ce608a399478d82e3e712433db12845074fc45))
+
 # [1.6.0](https://github.com/rickbassham/tesla-dashboard/compare/1.5.0...1.6.0) (2020-01-12)
 
 
