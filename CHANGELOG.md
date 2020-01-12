@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/rickbassham/tesla-dashboard/compare/1.5.0...1.6.0) (2020-01-12)
+
+
+### Bug Fixes
+
+* check active tab and set default if empty ([c37e26c](https://github.com/rickbassham/tesla-dashboard/commit/c37e26c7eb9b1fc65cae03237653449aeef83c74))
+
+
+### Features
+
+* remember active tab ([e7f4a93](https://github.com/rickbassham/tesla-dashboard/commit/e7f4a93f67c6c5b5848d5e9605d68f0447231b83))
+
 # [1.5.0](https://github.com/rickbassham/tesla-dashboard/compare/1.4.0...1.5.0) (2020-01-12)
 
 
