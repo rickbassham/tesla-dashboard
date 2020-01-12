@@ -125,6 +125,10 @@ export default {
     btnClick: function(id) {
       this.active = id;
 
+      this.$gtag.event('navclicked', {
+        'event_label': id,
+      })
+
       if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
         this.frameSrc[id] = this.defaultFrameSrc[id];
       }
