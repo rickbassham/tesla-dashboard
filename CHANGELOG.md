@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/rickbassham/tesla-dashboard/compare/1.4.0...1.5.0) (2020-01-12)
+
+
+### Features
+
+* add analytics tracking ([521d983](https://github.com/rickbassham/tesla-dashboard/commit/521d983f0037ad5bc19f82a1c5ca3bd012ac4e12))
+
 # [1.4.0](https://github.com/rickbassham/tesla-dashboard/compare/1.3.12...1.4.0) (2020-01-11)
 
 
