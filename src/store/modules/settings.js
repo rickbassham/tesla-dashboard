@@ -3,6 +3,7 @@ const state = {
   selectedMap: 'wind_speed',
   newABRP: true,
   darkMode: false,
+  activeTab: 'home',
 };
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
   setNewABRP(state, newABRP) {
     state.newABRP = newABRP;
   },
+  setActiveTab(state, activeTab) {
+    state.activeTab = activeTab;
+  }
 }
 
 export default {

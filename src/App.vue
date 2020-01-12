@@ -77,7 +77,6 @@ export default {
   },
   data: function() {
     return {
-      active: "home",
       frameSrc: {
         "abrp": "",
         "waze": "",
@@ -98,6 +97,14 @@ export default {
       set(val) {
         this.$store.commit("settings/setDarkMode", val);
         this.$vuetify.theme.dark = val;
+      }
+    },
+    activeTab: {
+      get() {
+        return this.$store.state.settings.activeTab;
+      },
+      set(val) {
+        this.$store.commit("settings/setActiveTab", val);
       }
     },
     defaultFrameSrc: function() {
@@ -123,7 +130,7 @@ export default {
   },
   methods: {
     btnClick: function(id) {
-      this.active = id;
+      this.activeTab = id;
 
       this.$gtag.event('navclicked', {
         'event_label': id,
@@ -134,10 +141,10 @@ export default {
       }
     },
     getClass: function(id) {
-      return this.active === id ? "fill-height align-start" : "d-none";
+      return this.activeTab === id ? "fill-height align-start" : "d-none";
     },
     getColor: function(id) {
-      return this.active === id ? "primary" : "";
+      return this.activeTab === id ? "primary" : "";
     }
   },
   beforeMount() {
