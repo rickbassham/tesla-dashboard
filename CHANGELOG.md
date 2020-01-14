@@ -1,3 +1,10 @@
+# [1.7.0-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.7.0-beta.1...1.7.0-beta.2) (2020-01-14)
+
+
+### Bug Fixes
+
+* use https for cors-anywhere ([558aec7](https://github.com/rickbassham/tesla-dashboard/commit/558aec7962cc2ecd9c0bc999b4f5063ca929647a))
+
 # [1.7.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.6.1...1.7.0-beta.1) (2020-01-14)
 
 
