@@ -7,16 +7,19 @@
         <v-icon left>mdi-home</v-icon>Home
       </v-btn>
       <v-btn class="mx-2" :color="getColor('guest')" v-on:click="btnClick('guest')">
-        <v-icon left>mdi-account</v-icon>Guest Instructions
+        <v-icon left>mdi-account</v-icon>Guest
       </v-btn>
       <v-btn class="mx-2" :color="getColor('abrp')" v-on:click="btnClick('abrp')">
-        <v-icon left>mdi-map</v-icon>A Better Route Planner
+        <v-icon left>mdi-map</v-icon>ABRP
       </v-btn>
       <v-btn class="mx-2" :color="getColor('waze')" v-on:click="btnClick('waze')">
         <v-icon left>mdi-map</v-icon>Waze
       </v-btn>
       <v-btn class="mx-2" :color="getColor('plugshare')" v-on:click="btnClick('plugshare')">
         <v-icon left>mdi-power-plug</v-icon>PlugShare
+      </v-btn>
+      <v-btn class="mx-2" :color="getColor('news')" v-on:click="btnClick('news')">
+        <v-icon left>mdi-newspaper</v-icon>News
       </v-btn>
       <v-btn class="mx-2" :color="getColor('settings')" v-on:click="btnClick('settings')">
         <v-icon left>mdi-settings</v-icon>Settings
@@ -40,6 +43,9 @@
         <v-container :class="getClass('plugshare')" fluid>
           <frame :src="this.frameSrc['plugshare']" />
         </v-container>
+        <v-container :class="getClass('news')" fluid>
+          <news />
+        </v-container>
         <v-container :class="getClass('settings')" fluid>
           <settings />
         </v-container>
@@ -62,6 +68,7 @@
 import Welcome from "./components/Welcome.vue";
 import GuestInstructions from "./components/model3/GuestInstructions.vue";
 import Settings from "./components/Setup.vue";
+import News from "./components/News.vue";
 import Frame from "./components/Frame.vue";
 import { mapState, mapGetters } from "vuex";
 
@@ -70,7 +77,8 @@ export default {
     Welcome,
     GuestInstructions,
     Settings,
-    Frame
+    Frame,
+    News,
   },
   props: {
     source: String
