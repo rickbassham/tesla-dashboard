@@ -49,7 +49,7 @@ export default {
       this.loading = true;
       this.feed = {};
 
-      const data = await (await fetch("http://cors-anywhere.herokuapp.com/" + this.rssFeed)).text();
+      const data = await (await fetch("https://cors-anywhere.herokuapp.com/" + this.rssFeed)).text();
       const feed = await parser.parseString(data);
 
       for (let i = 0; i < feed.items.length; i++) {
