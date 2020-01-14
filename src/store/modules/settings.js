@@ -4,6 +4,7 @@ const state = {
   newABRP: true,
   darkMode: false,
   activeTab: 'home',
+  rssFeed: 'http://feeds.bbci.co.uk/news/world/rss.xml'
 };
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   setActiveTab(state, activeTab) {
     state.activeTab = activeTab;
+  },
+  setRSSFeed(state, rssFeed) {
+    state.rssFeed = rssFeed;
   }
 }
 
