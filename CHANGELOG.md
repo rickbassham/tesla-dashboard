@@ -1,3 +1,10 @@
+# [1.7.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.6.1...1.7.0-beta.1) (2020-01-14)
+
+
+### Features
+
+* add rss feed support ([0bd282d](https://github.com/rickbassham/tesla-dashboard/commit/0bd282d4b1de2d00d7035c87472f7bbd7e944a56))
+
 ## [1.6.1](https://github.com/rickbassham/tesla-dashboard/compare/1.6.0...1.6.1) (2020-01-12)
 
 
