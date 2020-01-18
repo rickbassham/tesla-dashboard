@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/rickbassham/tesla-dashboard/compare/1.6.1...1.6.2) (2020-01-18)
+
+
+### Bug Fixes
+
+* fix implementation of moment ([4629587](https://github.com/rickbassham/tesla-dashboard/commit/4629587622195560b8826455d1fa628899e7851a))
+
 ## [1.6.1](https://github.com/rickbassham/tesla-dashboard/compare/1.6.0...1.6.1) (2020-01-12)
 
 
