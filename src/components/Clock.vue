@@ -12,7 +12,7 @@
 export default {
   data() {
     return {
-      currentTime: null,
+      currentTime: new Date(),
       timer: null
     };
   },
