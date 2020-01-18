@@ -150,6 +150,11 @@ export default {
     }
   },
   beforeMount() {
+    const match = navigator.userAgent.match(/Tesla\/(.*?)($|\s)/);
+    if (match && match.length > 1) {
+      this.$gtag.event("tesla_firmware_dimension", { tesla_firmware: match[1] })
+    }
+
     if (!this.activeTab) {
       this.activeTab = "home";
     }

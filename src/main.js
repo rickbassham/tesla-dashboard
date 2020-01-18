@@ -6,7 +6,14 @@ import store from './store'
 
 Vue.use(require('vue-moment'));
 Vue.use(VueGtag, {
-  config: { id: "UA-156100161-1" }
+  config: {
+    id: "UA-156100161-1",
+    params: {
+      custom_map: {
+        dimension1: "tesla_firmware"
+      }
+    }
+  }
 });
 
 Vue.config.productionTip = false

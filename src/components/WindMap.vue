@@ -15,7 +15,7 @@ const uuidv4 = require("uuid/v4");
 export default {
   computed: {
     now: function() {
-      return new Date() | this.$moment("YYYY-MM-DD");
+      return this.$moment().format("YYYY-MM-DD");
     },
     src: function() {
       return `https://maps.darksky.net/@${this.selectedMap},${this.now},19,${this.lat},${this.lng},8`;
