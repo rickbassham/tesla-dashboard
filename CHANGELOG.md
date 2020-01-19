@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/rickbassham/tesla-dashboard/compare/1.6.2...1.7.0) (2020-01-19)
+
+
+### Features
+
+* replace google analytics with matomo ([eb5a2f4](https://github.com/rickbassham/tesla-dashboard/commit/eb5a2f404808a08283885031b85e95471c53b2a4))
+
 ## [1.6.2](https://github.com/rickbassham/tesla-dashboard/compare/1.6.1...1.6.2) (2020-01-18)
 
 
