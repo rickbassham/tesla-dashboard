@@ -1,22 +1,17 @@
 import Vue from 'vue'
-import VueGtag from "vue-gtag";
 import App from './App.vue'
+import VueMatomo from 'vue-matomo';
 import vuetify from './plugins/vuetify';
 import store from './store'
 
 Vue.use(require('vue-moment'));
-Vue.use(VueGtag, {
-  config: {
-    id: "UA-156100161-1",
-    params: {
-      custom_map: {
-        dimension1: "tesla_firmware"
-      }
-    }
-  }
+Vue.use(VueMatomo, {
+  host: "https://analytics.rickbassham.com",
+  siteId: 1,
+  enableHeartBeatTimer: true,
 });
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   vuetify,
