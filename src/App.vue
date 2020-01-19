@@ -134,9 +134,9 @@ export default {
     btnClick: function(id) {
       this.activeTab = id;
 
-      this.$gtag.event("navclicked", {
-        event_label: id
-      });
+      window.history.pushState({"page": id}, "", `/${id}`);
+      this.$matomo.setCustomUrl(`/${id}`);
+      this.$matomo.trackPageView();
 
       if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
         this.frameSrc[id] = this.defaultFrameSrc[id];
@@ -152,7 +152,7 @@ export default {
   beforeMount() {
     const match = navigator.userAgent.match(/Tesla\/(.*?)($|\s)/);
     if (match && match.length > 1) {
-      this.$gtag.event("tesla_firmware_dimension", { tesla_firmware: match[1] })
+      this.$matomo.setCustomVariable(1, "tesla_firmware", match[1], "visit");
     }
 
     if (!this.activeTab) {
