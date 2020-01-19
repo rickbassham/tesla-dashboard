@@ -152,7 +152,7 @@ export default {
   beforeMount() {
     const match = navigator.userAgent.match(/Tesla\/(.*?)($|\s)/);
     if (match && match.length > 1) {
-      this.$matomo.setCustomVariable(1, "tesla_firmware", match[1], "visit");
+      this.$matomo.setCustomDimension(1, match[1]);
     }
 
     if (!this.activeTab) {
