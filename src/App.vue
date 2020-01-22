@@ -130,6 +130,10 @@ export default {
     const page = this.pages.find(page => page.title == this.activeTab);
     if (page) {
       this.frameSrc[page.title] = page.link;
+    } else {
+      if (!["Home", "Guest", "Settings"].find(e => e === this.activeTab)) {
+        this.activeTab = "Home";
+      }
     }
 
     if (matchMedia) {

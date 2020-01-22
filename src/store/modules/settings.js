@@ -4,7 +4,7 @@ const state = {
   vehicleName: 'the Model 3',
   selectedMap: 'wind_speed',
   darkMode: false,
-  activeTab: 'home',
+  activeTab: 'Home',
   showGuestInstructions: true,
   pages: [{
     link: "https://abetterrouteplanner.com/",
@@ -20,7 +20,7 @@ const state = {
     link: "https://teslawaze.azurewebsites.net/",
     title: "Waze",
     icon: "mdi-map",
-    enabled: false,
+    enabled: true,
   }],
 };
 
