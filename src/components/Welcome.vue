@@ -62,6 +62,13 @@ export default {
       let data = {};
       data = Object.assign(data, this.rawLocation);
       data = Object.assign(data, { error: this.error });
+      data = Object.assign(data, { user_agent: navigator.userAgent });
+
+      const match = navigator.userAgent.match(/Tesla\/(.*?)($|\s)/);
+      if (match && match.length > 1) {
+        data = Object.assign(data, { firmware: match[1] });
+      }
+
       return data;
     }
   },
