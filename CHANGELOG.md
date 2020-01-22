@@ -1,3 +1,10 @@
+# [1.8.0-beta.3](https://github.com/rickbassham/tesla-dashboard/compare/1.8.0-beta.2...1.8.0-beta.3) (2020-01-22)
+
+
+### Bug Fixes
+
+* default to home page on new visits ([7c1781a](https://github.com/rickbassham/tesla-dashboard/commit/7c1781ae1ce7a79b36e6397722e8189203ff6601))
+
 # [1.8.0-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.8.0-beta.1...1.8.0-beta.2) (2020-01-22)
 
 
