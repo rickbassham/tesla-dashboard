@@ -1,3 +1,11 @@
+# [1.8.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.7.1...1.8.0-beta.1) (2020-01-22)
+
+
+### Features
+
+* ability to edit pages ([005ae62](https://github.com/rickbassham/tesla-dashboard/commit/005ae6261d4b6fcef81939922f8122ebeb3625b6))
+* add and remove pages ([5540090](https://github.com/rickbassham/tesla-dashboard/commit/554009058d53ec1484aa01ab6c62d72acd8dafd1))
+
 ## [1.7.1](https://github.com/rickbassham/tesla-dashboard/compare/1.7.0...1.7.1) (2020-01-19)
 
 
