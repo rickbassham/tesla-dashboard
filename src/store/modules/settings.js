@@ -58,6 +58,12 @@ const mutations = {
   movePageDown(state, {index}) {
     state.pages = arrayMove(state.pages, index, index+1);
   },
+  addPage(state) {
+    state.pages.push({link: "http://example.com", title: "Example", enabled: false, icon: "mdi-map"});
+  },
+  removePage(state, {index}) {
+    state.pages.splice(index, 1);
+  },
 }
 
 export default {
