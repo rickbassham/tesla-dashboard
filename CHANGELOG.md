@@ -1,3 +1,10 @@
+# [1.8.0-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.8.0-beta.1...1.8.0-beta.2) (2020-01-22)
+
+
+### Bug Fixes
+
+* add user agent and firmware to debug info ([7c0b2a2](https://github.com/rickbassham/tesla-dashboard/commit/7c0b2a2f9b94a9e59c3c1f20605535d3184b4c96))
+
 # [1.8.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.7.1...1.8.0-beta.1) (2020-01-22)
 
 
