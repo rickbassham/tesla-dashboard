@@ -153,7 +153,6 @@ import spotify from "../scripts/spotify.js";
 export default {
   data: function() {
     return {
-      host: "http://localhost:8080",
       clientID: "c4684e2196844a0dbd9e2de0b5051084",
       accessToken: "",
       scopes: [
@@ -182,9 +181,13 @@ export default {
       currentContext: null,
       activeTab: null,
       devices: null,
+      playbackInterval: null,
     };
   },
   computed: {
+    host: function() {
+      return window.location.origin;
+    },
     spotifyDevice: {
       get() {
         return this.$store.state.settings.spotifyDevice;
@@ -234,14 +237,12 @@ export default {
     currentTrackIndex: function() {
       if (this.activeTab === 'current' && this.playback)
         this.$nextTick().then(() => {
-          console.log('goto currentTrackIndex')
           this.$vuetify.goTo('#'+this.playback.item.uri.replace(/:/g, '_'), {offset: 200})
         })
     },
     activeTab: function() {
       if (this.activeTab === 'current' && this.playback)
         this.$nextTick().then(() => {
-          console.log('goto activeTab')
           this.$vuetify.goTo('#'+this.playback.item.uri.replace(/:/g, '_'), {offset: 200})
         })
     }
@@ -282,13 +283,16 @@ export default {
     })
 
     const self = this;
-    setInterval(function(){
+    this.spotifyDevice = setInterval(function(){
       self.client.getCurrentPlayback().then(playback => {
         self.playback = playback;
         if (playback.item)
           self.currentTrackUri_raw = playback.item.uri;
       });
     }, 1000);
+  },
+  beforeDestroy: function() {
+    clearInterval(this.playbackInterval);
   },
   methods: {
     repeatClicked: function () {
