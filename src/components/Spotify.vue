@@ -181,11 +181,18 @@ export default {
       client: null,
       currentContext: null,
       activeTab: null,
-      device: null,
       devices: null,
     };
   },
   computed: {
+    spotifyDevice: {
+      get() {
+        return this.$store.state.settings.spotifyDevice;
+      },
+      set(val) {
+        this.$store.commit("settings/setSpotifyDevice", val);
+      }
+    },
     currentTrackIndex: {
       get() {
         if (this.currentContext && this.currentContext.tracks && this.currentContext.tracks.findIndex) {
@@ -200,18 +207,18 @@ export default {
     deviceIndex: {
       get() {
         if (this.devices) {
-          return this.devices.findIndex(d => d.name === this.device);
+          return this.devices.findIndex(d => d.name === this.spotifyDevice);
         }
         return -1;
       },
       set(val) {
-        this.device = this.devices[val];
+        this.spotifyDevice = this.devices[val];
         this.client.device = this.device.id;
       }
     },
     hideDialog: {
       get() {
-        return !this.device;
+        return !this.spotifyDevice;
       },
       set() {}
     }
