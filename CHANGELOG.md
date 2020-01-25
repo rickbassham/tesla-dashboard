@@ -1,3 +1,10 @@
+# [1.9.0-beta.2](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.1...1.9.0-beta.2) (2020-01-25)
+
+
+### Bug Fixes
+
+* save spotify device ([7500ad2](https://github.com/rickbassham/tesla-dashboard/commit/7500ad2574beaa74c154e9c84bd8b7aaf31c4ac9))
+
 # [1.9.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.8.0...1.9.0-beta.1) (2020-01-25)
 
 
