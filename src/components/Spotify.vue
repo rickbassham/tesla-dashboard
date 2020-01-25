@@ -216,7 +216,7 @@ export default {
       },
       set(val) {
         this.spotifyDevice = this.devices[val];
-        this.client.device = this.device.id;
+        this.client.device = this.spotifyDevice.id;
       }
     },
     hideDialog: {
@@ -282,8 +282,12 @@ export default {
       this.podcasts = podcasts;
     })
 
+    if (this.spotifyDevice) {
+      this.client.device = this.spotifyDevice.id;
+    }
+
     const self = this;
-    this.spotifyDevice = setInterval(function(){
+    this.playbackInterval = setInterval(function(){
       self.client.getCurrentPlayback().then(playback => {
         self.playback = playback;
         if (playback.item)
@@ -293,6 +297,7 @@ export default {
   },
   beforeDestroy: function() {
     clearInterval(this.playbackInterval);
+    this.$vuetify.goTo(0);
   },
   methods: {
     repeatClicked: function () {
