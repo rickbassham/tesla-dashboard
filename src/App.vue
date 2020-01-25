@@ -6,6 +6,9 @@
       <v-btn class="mx-2" :color="getColor('Home')" v-on:click="btnClick({title: 'Home'})">
         <v-icon left>mdi-home</v-icon>Home
       </v-btn>
+      <v-btn class="mx-2" :color="getColor('Spotify')" v-on:click="btnClick({title: 'Spotify'})">
+        <v-icon left>mdi-spotify</v-icon>Spotify
+      </v-btn>
 
       <v-btn class="mx-2" v-for="page in enabledPages" :key="page.title" :color="getColor(page.title)" v-on:click="btnClick(page)">
         <v-icon left>{{page.icon}}</v-icon>{{page.title}}
@@ -23,6 +26,9 @@
       <v-container class="fill-height align-start" fluid>
         <v-container :class="getClass('Home')" fluid>
           <welcome />
+        </v-container>
+        <v-container :class="getClass('Spotify')" fluid>
+          <spotify />
         </v-container>
         <v-container v-for="page in enabledPages" :key="page.title" :class="getClass(page.title)" fluid>
           <frame :src="frameSrc[page.title]" />
@@ -53,6 +59,7 @@ import Welcome from "./components/Welcome.vue";
 import GuestInstructions from "./components/model3/GuestInstructions.vue";
 import Settings from "./components/Setup.vue";
 import Frame from "./components/Frame.vue";
+import Spotify from "./components/Spotify.vue";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -60,7 +67,8 @@ export default {
     Welcome,
     GuestInstructions,
     Settings,
-    Frame
+    Frame,
+    Spotify
   },
   data: function() {
     return {
@@ -123,6 +131,10 @@ export default {
       this.$matomo.setCustomDimension(1, match[1]);
     }
 
+    if (window.location.pathname.match(/spotify_login/)) {
+      this.activeTab = "Spotify";
+    }
+
     if (!this.activeTab) {
       this.activeTab = "Home";
     }
@@ -131,7 +143,7 @@ export default {
     if (page) {
       this.frameSrc[page.title] = page.link;
     } else {
-      if (!["Home", "Guest", "Settings"].find(e => e === this.activeTab)) {
+      if (!["Home", "Spotify", "Guest", "Settings"].find(e => e === this.activeTab)) {
         this.activeTab = "Home";
       }
     }
