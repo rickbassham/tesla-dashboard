@@ -1,3 +1,10 @@
+# [1.9.0-beta.1](https://github.com/rickbassham/tesla-dashboard/compare/1.8.0...1.9.0-beta.1) (2020-01-25)
+
+
+### Features
+
+* add spotify support ([2f8cded](https://github.com/rickbassham/tesla-dashboard/commit/2f8cdedab6756b2d09a498cec7e86b5449c6a9cb))
+
 # [1.8.0](https://github.com/rickbassham/tesla-dashboard/compare/1.7.1...1.8.0) (2020-01-25)
 
 
