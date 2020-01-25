@@ -22,6 +22,7 @@ const state = {
     icon: "mdi-map",
     enabled: true,
   }],
+  spotifyDevice: null,
 };
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
   },
   setDarkMode(state, darkMode) {
     state.darkMode = darkMode;
+  },
+  setSpotifyDevice(state, spotifyDevice) {
+    state.spotifyDevice = spotifyDevice;
   },
   setShowGuestInstructions(state, showGuestInstructions) {
     state.showGuestInstructions = showGuestInstructions;
