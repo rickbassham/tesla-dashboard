@@ -28,7 +28,7 @@
           <welcome />
         </v-container>
         <v-container :class="getClass('Spotify')" fluid>
-          <spotify />
+          <spotify v-if="activeTab === 'Spotify'" />
         </v-container>
         <v-container v-for="page in enabledPages" :key="page.title" :class="getClass(page.title)" fluid>
           <frame :src="frameSrc[page.title]" />
