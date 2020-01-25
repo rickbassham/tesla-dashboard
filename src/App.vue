@@ -3,44 +3,34 @@
     <v-app-bar app class="appbar">
       <v-toolbar-title>Tesla Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="mx-2" :color="getColor('home')" v-on:click="btnClick('home')">
+      <v-btn class="mx-2" :color="getColor('Home')" v-on:click="btnClick({title: 'Home'})">
         <v-icon left>mdi-home</v-icon>Home
       </v-btn>
-      <v-btn class="mx-2" :color="getColor('guest')" v-on:click="btnClick('guest')">
-        <v-icon left>mdi-account</v-icon>Guest Instructions
+
+      <v-btn class="mx-2" v-for="page in enabledPages" :key="page.title" :color="getColor(page.title)" v-on:click="btnClick(page)">
+        <v-icon left>{{page.icon}}</v-icon>{{page.title}}
       </v-btn>
-      <v-btn class="mx-2" :color="getColor('abrp')" v-on:click="btnClick('abrp')">
-        <v-icon left>mdi-map</v-icon>A Better Route Planner
+
+      <v-btn v-if="showGuestInstructions" class="mx-2" :color="getColor('Guest')" v-on:click="btnClick({title: 'Guest'})">
+        <v-icon left>mdi-account</v-icon>Guest
       </v-btn>
-      <v-btn class="mx-2" :color="getColor('waze')" v-on:click="btnClick('waze')">
-        <v-icon left>mdi-map</v-icon>Waze
-      </v-btn>
-      <v-btn class="mx-2" :color="getColor('plugshare')" v-on:click="btnClick('plugshare')">
-        <v-icon left>mdi-power-plug</v-icon>PlugShare
-      </v-btn>
-      <v-btn class="mx-2" :color="getColor('settings')" v-on:click="btnClick('settings')">
+      <v-btn class="mx-2" :color="getColor('Settings')" v-on:click="btnClick({title: 'Settings'})">
         <v-icon left>mdi-settings</v-icon>Settings
       </v-btn>
     </v-app-bar>
 
     <v-content>
       <v-container class="fill-height align-start" fluid>
-        <v-container :class="getClass('home')" fluid>
+        <v-container :class="getClass('Home')" fluid>
           <welcome />
         </v-container>
-        <v-container :class="getClass('guest')" fluid>
+        <v-container v-for="page in enabledPages" :key="page.title" :class="getClass(page.title)" fluid>
+          <frame :src="frameSrc[page.title]" />
+        </v-container>
+        <v-container v-if="showGuestInstructions" :class="getClass('Guest')" fluid>
           <guest-instructions />
         </v-container>
-        <v-container :class="getClass('abrp')" fluid>
-          <frame :src="this.frameSrc['abrp']" />
-        </v-container>
-        <v-container :class="getClass('waze')" fluid>
-          <frame :src="this.frameSrc['waze']" />
-        </v-container>
-        <v-container :class="getClass('plugshare')" fluid>
-          <frame :src="this.frameSrc['plugshare']" />
-        </v-container>
-        <v-container :class="getClass('settings')" fluid>
+        <v-container :class="getClass('Settings')" fluid>
           <settings />
         </v-container>
       </v-container>
@@ -72,23 +62,23 @@ export default {
     Settings,
     Frame
   },
-  props: {
-    source: String
-  },
   data: function() {
     return {
       frameSrc: {
-        abrp: "",
-        waze: "",
-        plugshare: ""
-      }
+      },
     };
   },
+  props: {
+    source: String
+  },
   computed: {
-    ...mapState("settings", ["newABRP"]),
+    ...mapState("settings", ["showGuestInstructions", "pages"]),
     ...mapGetters("version", ["appVersion"]),
     darkModeText: function() {
       return this.darkMode ? "Light" : "Dark";
+    },
+    enabledPages: function() {
+      return this.pages.filter(page => page.enabled);
     },
     darkMode: {
       get() {
@@ -107,39 +97,17 @@ export default {
         this.$store.commit("settings/setActiveTab", val);
       }
     },
-    defaultFrameSrc: function() {
-      return {
-        abrp: this.newABRP
-          ? "https://new.abetterrouteplanner.com/"
-          : "https://abetterrouteplanner.com/",
-        waze: "https://teslawaze.azurewebsites.net/",
-        plugshare: "https://www.plugshare.com/"
-      };
-    }
-  },
-  watch: {
-    newABRP: function(val) {
-      if (val) {
-        if (this.frameSrc["abrp"]) {
-          this.frameSrc["abrp"] = "https://new.abetterrouteplanner.com/";
-        }
-      } else {
-        if (this.frameSrc["abrp"]) {
-          this.frameSrc["abrp"] = "https://abetterrouteplanner.com/";
-        }
-      }
-    }
   },
   methods: {
-    btnClick: function(id) {
-      this.activeTab = id;
+    btnClick: function(page) {
+      this.activeTab = page.title;
 
-      window.history.pushState({"page": id}, "", `/${id}`);
-      this.$matomo.setCustomUrl(`/${id}`);
+      window.history.pushState({"page": page.title}, "", `/${page.title}`);
+      this.$matomo.setCustomUrl(`/${page.title}`);
       this.$matomo.trackPageView();
 
-      if (this.defaultFrameSrc[id] && !this.frameSrc[id]) {
-        this.frameSrc[id] = this.defaultFrameSrc[id];
+      if (page.link && !this.frameSrc[page.title]) {
+        this.frameSrc[page.title] = page.link;
       }
     },
     getClass: function(id) {
@@ -151,12 +119,21 @@ export default {
   },
   beforeMount() {
     const match = navigator.userAgent.match(/Tesla\/(.*?)($|\s)/);
-    if (match && match.length > 1) {
+    if (this.$matomo && match && match.length > 1) {
       this.$matomo.setCustomDimension(1, match[1]);
     }
 
     if (!this.activeTab) {
-      this.activeTab = "home";
+      this.activeTab = "Home";
+    }
+
+    const page = this.pages.find(page => page.title == this.activeTab);
+    if (page) {
+      this.frameSrc[page.title] = page.link;
+    } else {
+      if (!["Home", "Guest", "Settings"].find(e => e === this.activeTab)) {
+        this.activeTab = "Home";
+      }
     }
 
     if (matchMedia) {
