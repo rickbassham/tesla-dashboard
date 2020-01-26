@@ -32,60 +32,22 @@
       </v-card>
     </v-dialog>
     <v-row
-      v-if="playback && playback.item"
+      v-if="playback && playback.track"
       style="position: fixed; top: 52px; left: 0; right: 0; z-index: 99;"
     >
       <v-col cols="12">
-        <v-card tile>
-          <v-progress-linear
-            class="my-0"
-            height="3"
-            :value="(playback.progress_ms / playback.item.duration_ms) * 100"
-          ></v-progress-linear>
-          <v-list>
-            <v-list-item inactive>
-              <v-list-item-avatar>
-                <v-img
-                  :src="playback.item.album.images[0].url"
-                  aspect-ratio="1.33"
-                  contain
-                  width="100"
-                ></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>{{ playback.item.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ playback.item.artists[0].name }}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{ playback.item.album.name }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-spacer></v-spacer>
-              <v-list-item-action class="mx-2">
-                <v-btn x-large rounded v-on:click="previousClicked">
-                  <v-icon x-large>mdi-skip-previous</v-icon>
-                </v-btn>
-              </v-list-item-action>
-              <v-list-item-action class="mx-2">
-                <v-btn x-large rounded v-on:click="playPauseClicked">
-                  <v-icon x-large>{{ playIcon }}</v-icon>
-                </v-btn>
-              </v-list-item-action>
-              <v-list-item-action class="mx-2">
-                <v-btn x-large rounded v-on:click="nextClicked">
-                  <v-icon x-large>mdi-skip-next</v-icon>
-                </v-btn>
-              </v-list-item-action>
-              <v-list-item-action class="mx-2">
-                <v-btn x-large rounded v-on:click="shuffleClicked">
-                  <v-icon x-large :color="shuffleIconColor">mdi-shuffle</v-icon>
-                </v-btn>
-              </v-list-item-action>
-              <v-list-item-action class="mx-2">
-                <v-btn x-large rounded v-on:click="repeatClicked">
-                  <v-icon x-large :color="repeatIconColor">{{ repeatIcon }}</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
-        </v-card>
+        <player
+          v-bind:progress="(playback.progress / playback.track.duration) * 100"
+          v-bind:track="playback.track"
+          v-bind:repeatState="playback.repeatState"
+          v-bind:shuffleState="playback.shuffleState"
+          v-bind:isPlaying="playback.isPlaying"
+          v-on:previousClicked="previousClicked"
+          v-on:playPauseClicked="playPauseClicked"
+          v-on:nextClicked="nextClicked"
+          v-on:shuffleClicked="shuffleClicked"
+          v-on:repeatClicked="repeatClicked"
+        />
       </v-col>
     </v-row>
     <v-container :style="playerStyle" fluid>
@@ -98,78 +60,18 @@
         />
       </v-container>
       <v-container v-if="this.activePage === 'playlists'" fluid>
-        <v-row v-if="playlists">
-          <v-col v-for="playlist in playlists.items" :key="playlist.id" cols="3">
-            <v-card
-              height="100%"
-              style="display: flex; flex-direction: column;"
-              :id="playlist.uri.replace(/:/g, '_')"
-              :raised="currentContext && currentContext.uri === playlist.uri"
-            >
-              <v-card-title class="text-truncate" style="display: block">{{
-                playlist.name
-              }}</v-card-title>
-              <v-card-text>
-                <v-img :src="playlist.images[0].url" aspect-ratio="1.33" contain width="300" />
-              </v-card-text>
-              <v-card-subtitle class="grow">{{ playlist.description }}</v-card-subtitle>
-              <v-card-actions>
-                <v-btn color="primary" v-on:click="playAlbumClicked(playlist.uri)">
-                  {{ playButtonText(playlist.uri) }}
-                </v-btn>
-                <v-spacer />
-                <!--v-btn>View</v-btn-->
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+        <context-list
+          v-bind:currentContextUri="currentContext ? currentContext.uri : ''"
+          v-bind:list="playlists"
+          v-on:playContextClicked="playContextClicked"
+        />
       </v-container>
       <v-container v-if="this.activePage === 'albums'" fluid>
-        <v-row v-if="albums">
-          <v-col v-for="album in albums.items" :key="album.album.id" cols="3">
-            <v-card
-              height="100%"
-              style="display: flex; flex-direction: column;"
-              :id="album.album.uri.replace(/:/g, '_')"
-              :raised="currentContext && currentContext.uri === album.album.uri"
-            >
-              <v-card-title class="text-truncate" style="display: block">
-                {{ album.album.name }}
-              </v-card-title>
-              <v-card-text>
-                <v-img :src="album.album.images[0].url" aspect-ratio="1.33" contain width="300" />
-              </v-card-text>
-              <v-card-subtitle class="grow">{{ album.album.artists[0].name }}</v-card-subtitle>
-              <v-card-actions>
-                <v-btn color="primary" v-on:click="playAlbumClicked(album.album.uri)">
-                  {{ playButtonText(album.album.uri) }}
-                </v-btn>
-                <v-spacer />
-                <!--v-btn>View</v-btn-->
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-container v-if="this.activePage === 'podcasts'" fluid>
-        <v-row v-if="podcasts">
-          <v-col v-for="podcast in podcasts.items" :key="podcast.show.id" cols="3">
-            <v-card height="100%" style="display: flex; flex-direction: column;">
-              <v-card-title class="text-truncate" style="display: block">
-                {{ podcast.show.name }}
-              </v-card-title>
-              <v-card-text>
-                <v-img :src="podcast.show.images[0].url" aspect-ratio="1.33" contain width="300" />
-              </v-card-text>
-              <v-card-subtitle class="grow">{{ podcast.show.description }}</v-card-subtitle>
-              <v-card-actions>
-                <v-btn color="primary" v-on:click="playAlbumClicked(podcast.show.uri)">Play</v-btn>
-                <v-spacer />
-                <!--v-btn>View</v-btn-->
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+        <context-list
+          v-bind:currentContextUri="currentContext ? currentContext.uri : ''"
+          v-bind:list="albums"
+          v-on:playContextClicked="playContextClicked"
+        />
       </v-container>
     </v-container>
     <v-bottom-navigation fixed v-model="activePage">
@@ -185,10 +87,6 @@
         Albums
         <v-icon>mdi-album</v-icon>
       </v-btn>
-      <!--v-btn value="podcasts">
-        Podcasts
-        <v-icon>mdi-podcast</v-icon>
-      </v-btn-->
     </v-bottom-navigation>
   </v-container>
 </template>
@@ -197,10 +95,14 @@ import { mapState } from "vuex";
 import spotify from "../scripts/spotify.js";
 
 import TrackList from "./spotify/TrackList.vue";
+import ContextList from "./spotify/ContextList.vue";
+import Player from "./spotify/Player.vue";
 
 export default {
   components: {
-    TrackList
+    TrackList,
+    ContextList,
+    Player
   },
   data: function() {
     return {
@@ -226,7 +128,6 @@ export default {
       user: null,
       playlists: null,
       albums: null,
-      podcasts: null,
       playback: null,
       client: null,
       currentContext: null,
@@ -240,32 +141,8 @@ export default {
     host: function() {
       return window.location.origin;
     },
-    playIcon: function() {
-      if (this.playback) {
-        return this.playback.is_playing ? "mdi-pause" : "mdi-play";
-      }
-      return "";
-    },
-    shuffleIconColor: function() {
-      if (this.playback) {
-        return this.playback.shuffle_state ? "primary" : "grey lighten-1";
-      }
-      return "";
-    },
-    repeatIconColor: function() {
-      if (this.playback) {
-        return this.playback.repeat_state == "off" ? "grey lighten-1" : "primary";
-      }
-      return "";
-    },
-    repeatIcon: function() {
-      if (this.playback) {
-        return this.playback.repeat_state == "track" ? "mdi-repeat-once" : "mdi-repeat";
-      }
-      return "";
-    },
     playerStyle: function() {
-      return this.playback && this.playback.item ? "top: 40px; position: relative" : "";
+      return this.playback && this.playback.track ? "top: 40px; position: relative" : "";
     },
     spotifyDevice: {
       get() {
@@ -278,12 +155,12 @@ export default {
     currentTrackIndex: function() {
       if (
         this.playback &&
-        this.playback.item &&
+        this.playback.track &&
         this.currentContext &&
         this.currentContext.tracks &&
         this.currentContext.tracks.findIndex
       ) {
-        return this.currentContext.tracks.findIndex(t => t.uri === this.playback.item.uri);
+        return this.currentContext.tracks.findIndex(t => t.uri === this.playback.track.uri);
       }
       return -1;
     },
@@ -319,10 +196,10 @@ export default {
   },
   watch: {
     playback: function(newVal, oldVal) {
-      if (newVal && newVal.context && (!oldVal || newVal.context.uri !== oldVal.context.uri)) {
+      if (newVal && newVal.contextUri && (!oldVal || newVal.contextUri !== oldVal.contextUri)) {
         this.spotifyDevice = newVal.device;
 
-        this.client.getContext(this.playback.context.uri).then(currentContext => {
+        this.client.getContext(this.playback.contextUri).then(currentContext => {
           this.currentContext = currentContext;
         });
       }
@@ -339,22 +216,22 @@ export default {
     currentTrackIndex: function() {
       this.$nextTick().then(() => {
         if (this.activePage === "current" && this.playback)
-          this.$vuetify.goTo("#" + this.playback.item.uri.replace(/:/g, "_"), { offset: 200 });
+          this.$vuetify.goTo("#" + this.playback.track.uri.replace(/:/g, "_"), { offset: 200 });
       });
     },
     activePage: function() {
       this.$nextTick().then(() => {
         if (this.activePage === "current" && this.playback) {
-          this.$vuetify.goTo("#" + this.playback.item.uri.replace(/:/g, "_"), { offset: 200 });
+          this.$vuetify.goTo("#" + this.playback.track.uri.replace(/:/g, "_"), { offset: 200 });
         } else if (this.activePage === "albums") {
-          if (this.playback && this.playback.context.type === "album") {
-            this.$vuetify.goTo("#" + this.playback.context.uri.replace(/:/g, "_"), { offset: 200 });
+          if (this.playback && this.playback.contextType === "album") {
+            this.$vuetify.goTo("#" + this.playback.contextUri.replace(/:/g, "_"), { offset: 200 });
           } else {
             this.$vuetify.goTo(0);
           }
         } else if (this.activePage === "playlists") {
-          if (this.playback && this.playback.context.type === "playlist") {
-            this.$vuetify.goTo("#" + this.playback.context.uri.replace(/:/g, "_"), { offset: 200 });
+          if (this.playback && this.playback.contextType === "playlist") {
+            this.$vuetify.goTo("#" + this.playback.contextUri.replace(/:/g, "_"), { offset: 200 });
           } else {
             this.$vuetify.goTo(0);
           }
@@ -388,21 +265,19 @@ export default {
     },
     repeatClicked: function() {
       let repeatMode = "off";
-      if (this.playback.repeat_state == "off") {
+      if (this.playback.repeatState == "off") {
         repeatMode = "context";
-      } else if (this.playback.repeat_state == "context") {
+      } else if (this.playback.repeatState == "context") {
         repeatMode = "track";
       }
       this.client.setRepeat(repeatMode);
-      this.playback.repeat_state = repeatMode;
     },
     shuffleClicked: function() {
-      const newState = !this.playback.shuffle_state;
+      const newState = !this.playback.shuffleState;
       this.client.setShuffle(newState);
-      this.playback.shuffle_state = newState;
     },
     playPauseClicked: function() {
-      if (this.playback.is_playing) {
+      if (this.playback.isPlaying) {
         this.client.pausePlayback();
       } else {
         this.client.resumePlayback();
@@ -414,7 +289,7 @@ export default {
     nextClicked: function() {
       this.client.skipNext();
     },
-    playAlbumClicked: function(uri) {
+    playContextClicked: function(uri) {
       if (uri == this.currentContext.uri) {
         this.activePage = "current";
       } else {
@@ -448,8 +323,8 @@ export default {
         this.playbackInterval = setInterval(function() {
           self.client.getCurrentPlayback().then(playback => {
             self.playback = playback;
-            if (playback && playback.item) {
-              self.currentTrackUri_raw = playback.item.uri;
+            if (playback && playback.track) {
+              self.currentTrackUri_raw = playback.track.uri;
             }
           });
         }, 1000);
@@ -482,10 +357,6 @@ export default {
 
         this.client.getAlbums().then(albums => {
           this.albums = albums;
-        });
-
-        this.client.getPodcasts().then(podcasts => {
-          this.podcasts = podcasts;
         });
 
         this.checkForDevices();

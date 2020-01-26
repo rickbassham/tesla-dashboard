@@ -16,11 +16,38 @@ export default class {
   }
 
   getPlaylists() {
-    return fetch("https://api.spotify.com/v1/me/playlists?limit=50", this.requestOptions).then(response => response.json());
+    return fetch("https://api.spotify.com/v1/me/playlists?limit=50", this.requestOptions)
+    .then(response => response.json())
+    .then(playlists => {
+      return playlists.items.map(playlist => {
+        return {
+          id: playlist.id,
+          uri: playlist.uri,
+          name: playlist.name,
+          type: playlist.type,
+          image: playlist.images && playlist.images.length > 0 ? playlist.images[0].url : "",
+          description: playlist.description,
+        };
+      });
+    });
   }
 
   getAlbums() {
-    return fetch("https://api.spotify.com/v1/me/albums?limit=50", this.requestOptions).then(response => response.json());
+    return fetch("https://api.spotify.com/v1/me/albums?limit=50", this.requestOptions)
+      .then(response => response.json())
+      .then(albums => {
+        return albums.items.map(item => {
+          const album = item.album;
+          return {
+            id: album.id,
+            uri: album.uri,
+            name: album.name,
+            type: album.type,
+            image: album.images && album.images.length > 0 ? album.images[0].url : "",
+            description: album.artists && album.artists.length > 0 ? album.artists[0].name : "",
+          };
+        })
+      });
   }
 
   getPodcasts() {
@@ -33,6 +60,34 @@ export default class {
         return response.json();
 
       return null;
+    }).then(playback => {
+      if (!playback) return null;
+
+      return {
+        contextUri: playback.context.uri,
+        contextType: playback.context.type,
+        progress: playback.progress_ms,
+        isPlaying: playback.is_playing,
+        shuffleState: playback.shuffle_state,
+        repeatState: playback.repeat_state,
+        device: {
+          id: playback.device.id,
+          name: playback.device.name,
+          type: playback.device.type,
+        },
+        track: {
+          id: playback.item.id,
+          uri: playback.item.uri,
+          name: playback.item.name,
+          album: {
+            uri: playback.item.album.uri,
+            name: playback.item.album.name,
+            image: playback.item.album.images.length > 0 ? playback.item.album.images[0].url : "",
+          },
+          artist: playback.item.artists.map(artist => artist.name).join(", "),
+          duration: playback.item.duration_ms,
+        }
+      }
     });
   }
 
