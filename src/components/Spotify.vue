@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-dialog persistent v-model="loading">
-      <v-card color="primary">
+      <v-card>
         <v-card-text>
           Loading
           <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
@@ -65,7 +65,7 @@
               </v-list-item-action>
               <v-list-item-action class="mx-2">
                 <v-btn x-large rounded v-on:click="playPauseClicked">
-                  <v-icon x-large>{{ playback.is_playing ? "mdi-pause" : "mdi-play" }}</v-icon>
+                  <v-icon x-large>{{ playIcon }}</v-icon>
                 </v-btn>
               </v-list-item-action>
               <v-list-item-action class="mx-2">
@@ -75,20 +75,12 @@
               </v-list-item-action>
               <v-list-item-action class="mx-2">
                 <v-btn x-large rounded v-on:click="shuffleClicked">
-                  <v-icon x-large :color="playback.shuffle_state ? 'primary' : 'grey lighten-1'"
-                    >mdi-shuffle</v-icon
-                  >
+                  <v-icon x-large :color="shuffleIconColor">mdi-shuffle</v-icon>
                 </v-btn>
               </v-list-item-action>
               <v-list-item-action class="mx-2">
                 <v-btn x-large rounded v-on:click="repeatClicked">
-                  <v-icon
-                    x-large
-                    :color="playback.repeat_state == 'off' ? 'grey lighten-1' : 'primary'"
-                    >{{
-                      playback.repeat_state == "track" ? "mdi-repeat-once" : "mdi-repeat"
-                    }}</v-icon
-                  >
+                  <v-icon x-large :color="repeatIconColor">{{ repeatIcon }}</v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
@@ -96,7 +88,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-container :style="playback && playback.item ? 'top: 40px; position: relative' : ''" fluid>
+    <v-container :style="playerStyle" fluid>
       <v-container v-if="this.activePage === 'current' && this.playback" fluid>
         <v-list title="Currently Playing" v-if="currentContext">
           <v-list-item>
@@ -151,7 +143,7 @@
               <v-card-subtitle class="grow">{{ playlist.description }}</v-card-subtitle>
               <v-card-actions>
                 <v-btn color="primary" v-on:click="playAlbumClicked(playlist.uri)">
-                  {{ currentContext && currentContext.uri === playlist.uri ? 'Playing' : 'Play' }}
+                  {{ playButtonText(playlist.uri) }}
                 </v-btn>
                 <v-spacer />
                 <!--v-btn>View</v-btn-->
@@ -178,7 +170,7 @@
               <v-card-subtitle class="grow">{{ album.album.artists[0].name }}</v-card-subtitle>
               <v-card-actions>
                 <v-btn color="primary" v-on:click="playAlbumClicked(album.album.uri)">
-                  {{ currentContext && currentContext.uri === album.album.uri ? 'Playing' : 'Play' }}
+                  {{ playButtonText(album.album.uri) }}
                 </v-btn>
                 <v-spacer />
                 <!--v-btn>View</v-btn-->
@@ -271,6 +263,33 @@ export default {
     host: function() {
       return window.location.origin;
     },
+    playIcon: function() {
+      if (this.playback) {
+        return this.playback.is_playing ? "mdi-pause" : "mdi-play";
+      }
+      return "";
+    },
+    shuffleIconColor: function() {
+      if (this.playback) {
+        return this.playback.shuffle_state ? "primary" : "grey lighten-1";
+      }
+      return "";
+    },
+    repeatIconColor: function() {
+      if (this.playback) {
+        return this.playback.repeat_state == "off" ? "grey lighten-1" : "primary";
+      }
+      return "";
+    },
+    repeatIcon: function() {
+      if (this.playback) {
+        return this.playback.repeat_state == "track" ? "mdi-repeat-once" : "mdi-repeat";
+      }
+      return "";
+    },
+    playerStyle: function() {
+      return this.playback && this.playback.item ? "top: 40px; position: relative" : "";
+    },
     spotifyDevice: {
       get() {
         return this.$store.state.settings.spotifyDevice;
@@ -307,22 +326,16 @@ export default {
         this.client.device = this.spotifyDevice.id;
       }
     },
-    showDialog: {
-      get() {
-        return (
-          !this.loading &&
-          this.isActive &&
-          !(this.spotifyDevice && this.devices && this.devices.length > 0) &&
-          !this.showInstructions
-        );
-      },
-      set() {}
+    showDialog: function() {
+      return (
+        !this.loading &&
+        this.isActive &&
+        !(this.spotifyDevice && this.devices && this.devices.length > 0) &&
+        !this.showInstructions
+      );
     },
-    showInstructions: {
-      get() {
-        return !this.loading && this.isActive && (!this.devices || !this.devices.length);
-      },
-      set() {}
+    showInstructions: function() {
+      return !this.loading && this.isActive && (!this.devices || !this.devices.length);
     },
     isActive: function() {
       return this.activeTab === "Spotify";
@@ -397,6 +410,9 @@ export default {
     this.$vuetify.goTo(0);
   },
   methods: {
+    playButtonText: function(uri) {
+      return this.currentContext && this.currentContext.uri === uri ? "Playing" : "Play";
+    },
     repeatClicked: function() {
       let repeatMode = "off";
       if (this.playback.repeat_state == "off") {
@@ -427,7 +443,7 @@ export default {
     },
     playAlbumClicked: function(uri) {
       if (uri == this.currentContext.uri) {
-        this.activePage = 'current';
+        this.activePage = "current";
       } else {
         this.client.playContext(uri);
       }
@@ -456,7 +472,9 @@ export default {
         this.playbackInterval = setInterval(function() {
           self.client.getCurrentPlayback().then(playback => {
             self.playback = playback;
-            if (playback.item) self.currentTrackUri_raw = playback.item.uri;
+            if (playback && playback.item) {
+              self.currentTrackUri_raw = playback.item.uri;
+            }
           });
         }, 1000);
       }
