@@ -1,5 +1,13 @@
 <template>
   <v-container fluid>
+    <v-dialog persistent v-model="loading">
+      <v-card color="primary" dark>
+        <v-card-text>
+          Loading
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-dialog persistent v-model="showDialog">
       <v-list>
         <v-list-item-group v-model="deviceIndex">
@@ -89,7 +97,7 @@
       </v-col>
     </v-row>
     <v-container :style="playback && playback.item ? 'top: 40px; position: relative' : ''" fluid>
-      <v-container v-if="this.activeTab === 'current' && this.playback" fluid>
+      <v-container v-if="this.activePage === 'current' && this.playback" fluid>
         <v-list title="Currently Playing" v-if="currentContext">
           <v-list-item>
             <v-list-item-avatar>
@@ -125,7 +133,7 @@
           </v-list-item-group>
         </v-list>
       </v-container>
-      <v-container v-if="this.activeTab === 'playlists'" fluid>
+      <v-container v-if="this.activePage === 'playlists'" fluid>
         <v-row v-if="playlists">
           <v-col v-for="playlist in playlists.items" :key="playlist.id" cols="3">
             <v-card
@@ -149,7 +157,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-container v-if="this.activeTab === 'albums'" fluid>
+      <v-container v-if="this.activePage === 'albums'" fluid>
         <v-row v-if="albums">
           <v-col v-for="album in albums.items" :key="album.album.id" cols="3">
             <v-card
@@ -173,7 +181,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-container v-if="this.activeTab === 'podcasts'" fluid>
+      <v-container v-if="this.activePage === 'podcasts'" fluid>
         <v-row v-if="podcasts">
           <v-col v-for="podcast in podcasts.items" :key="podcast.show.id" cols="3">
             <v-card height="100%" style="display: flex; flex-direction: column;">
@@ -194,7 +202,7 @@
         </v-row>
       </v-container>
     </v-container>
-    <v-bottom-navigation fixed v-model="activeTab">
+    <v-bottom-navigation fixed v-model="activePage">
       <v-btn value="current" v-if="this.playback">
         Currently Playing
         <v-icon>mdi-playlist-check</v-icon>
@@ -215,6 +223,7 @@
   </v-container>
 </template>
 <script>
+import { mapState } from "vuex";
 import spotify from "../scripts/spotify.js";
 
 export default {
@@ -246,12 +255,13 @@ export default {
       playback: null,
       client: null,
       currentContext: null,
-      activeTab: null,
+      activePage: null,
       devices: null,
       playbackInterval: null
     };
   },
   computed: {
+    ...mapState("settings", ["activeTab"]),
     host: function() {
       return window.location.origin;
     },
@@ -294,16 +304,25 @@ export default {
     showDialog: {
       get() {
         return (
-          !(this.spotifyDevice && this.devices && this.devices.length > 0) && !this.showInstructions
+          !this.loading &&
+          this.isActive &&
+          !(this.spotifyDevice && this.devices && this.devices.length > 0) &&
+          !this.showInstructions
         );
       },
       set() {}
     },
     showInstructions: {
       get() {
-        return !this.devices || !this.devices.length;
+        return !this.loading && this.isActive && (!this.devices || !this.devices.length);
       },
       set() {}
+    },
+    isActive: function() {
+      return this.activeTab === "Spotify";
+    },
+    loading: function() {
+      return this.isActive && !this.accessToken && !this.client;
     }
   },
   watch: {
@@ -320,28 +339,28 @@ export default {
       if (newVal && (!oldVal || newVal.uri !== oldVal.uri)) {
         this.$nextTick().then(() => {
           this.$nextTick().then(() => {
-            this.activeTab = "current";
+            this.activePage = "current";
           });
         });
       }
     },
     currentTrackIndex: function() {
       this.$nextTick().then(() => {
-        if (this.activeTab === "current" && this.playback)
+        if (this.activePage === "current" && this.playback)
           this.$vuetify.goTo("#" + this.playback.item.uri.replace(/:/g, "_"), { offset: 200 });
       });
     },
-    activeTab: function() {
+    activePage: function() {
       this.$nextTick().then(() => {
-        if (this.activeTab === "current" && this.playback) {
+        if (this.activePage === "current" && this.playback) {
           this.$vuetify.goTo("#" + this.playback.item.uri.replace(/:/g, "_"), { offset: 200 });
-        } else if (this.activeTab === "albums") {
+        } else if (this.activePage === "albums") {
           if (this.playback && this.playback.context.type === "album") {
             this.$vuetify.goTo("#" + this.playback.context.uri.replace(/:/g, "_"), { offset: 200 });
           } else {
             this.$vuetify.goTo(0);
           }
-        } else if (this.activeTab === "playlists") {
+        } else if (this.activePage === "playlists") {
           if (this.playback && this.playback.context.type === "playlist") {
             this.$vuetify.goTo("#" + this.playback.context.uri.replace(/:/g, "_"), { offset: 200 });
           } else {
@@ -359,40 +378,13 @@ export default {
 
         this.checkForPlayback();
       }
+    },
+    activeTab: function() {
+      this.setup();
     }
   },
   beforeMount: function() {
-    const tokenMatch = window.location.hash.match(/access_token=(.*?)&/);
-    if (tokenMatch && tokenMatch.length > 0) {
-      this.accessToken = tokenMatch[1];
-      window.location.hash = "";
-    }
-
-    if (!this.accessToken) {
-      const callback = encodeURIComponent(`${this.host}/spotify_login`);
-      const requestScopes = encodeURIComponent(this.scopes.join(" "));
-      window.location = `https://accounts.spotify.com/authorize?client_id=${this.clientID}&redirect_uri=${callback}&scope=${requestScopes}&response_type=token&state=123`;
-    }
-
-    this.client = new spotify(this.accessToken);
-
-    this.client.getUserProfile().then(user => {
-      this.user = user;
-    });
-
-    this.client.getPlaylists().then(playlists => {
-      this.playlists = playlists;
-    });
-
-    this.client.getAlbums().then(albums => {
-      this.albums = albums;
-    });
-
-    this.client.getPodcasts().then(podcasts => {
-      this.podcasts = podcasts;
-    });
-
-    this.checkForDevices();
+    this.setup();
   },
   beforeDestroy: function() {
     clearInterval(this.playbackInterval);
@@ -434,7 +426,12 @@ export default {
       this.client.getDevices().then(devices => {
         this.devices = devices.devices;
 
-        if (this.spotifyDevice && !this.devices.find(d => d.id === this.spotifyDevice.id)) {
+        if (
+          this.spotifyDevice &&
+          this.devices &&
+          this.devices.length &&
+          !this.devices.find(d => d.id === this.spotifyDevice.id)
+        ) {
           this.spotifyDevice = null;
         }
       });
@@ -452,6 +449,42 @@ export default {
             if (playback.item) self.currentTrackUri_raw = playback.item.uri;
           });
         }, 1000);
+      }
+    },
+    setup: function() {
+      if (this.isActive) {
+        const tokenMatch = window.location.hash.match(/access_token=(.*?)&/);
+        if (tokenMatch && tokenMatch.length > 0) {
+          this.accessToken = tokenMatch[1];
+          window.location.hash = "";
+        }
+
+        if (!this.accessToken) {
+          const callback = encodeURIComponent(`${this.host}/spotify_login`);
+          const requestScopes = encodeURIComponent(this.scopes.join(" "));
+          window.location = `https://accounts.spotify.com/authorize?client_id=${this.clientID}&redirect_uri=${callback}&scope=${requestScopes}&response_type=token&state=123`;
+          return;
+        }
+
+        this.client = new spotify(this.accessToken);
+
+        this.client.getUserProfile().then(user => {
+          this.user = user;
+        });
+
+        this.client.getPlaylists().then(playlists => {
+          this.playlists = playlists;
+        });
+
+        this.client.getAlbums().then(albums => {
+          this.albums = albums;
+        });
+
+        this.client.getPodcasts().then(podcasts => {
+          this.podcasts = podcasts;
+        });
+
+        this.checkForDevices();
       }
     }
   }
