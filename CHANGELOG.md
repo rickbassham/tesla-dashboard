@@ -1,3 +1,10 @@
+# [1.9.0-beta.8](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.7...1.9.0-beta.8) (2020-01-26)
+
+
+### Bug Fixes
+
+* another null check ([9faa93a](https://github.com/rickbassham/tesla-dashboard/commit/9faa93ae5261a42085f3202e8fadfa32f7cbf439))
+
 # [1.9.0-beta.7](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.6...1.9.0-beta.7) (2020-01-26)
 
 
