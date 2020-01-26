@@ -1,3 +1,10 @@
+# [1.9.0-beta.7](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.6...1.9.0-beta.7) (2020-01-26)
+
+
+### Bug Fixes
+
+* show playing album/playlist ([21cf26a](https://github.com/rickbassham/tesla-dashboard/commit/21cf26a6a7997c61fc18645b59cb3178d3f74ad1))
+
 # [1.9.0-beta.6](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.5...1.9.0-beta.6) (2020-01-26)
 
 
