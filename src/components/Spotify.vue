@@ -90,40 +90,12 @@
     </v-row>
     <v-container :style="playerStyle" fluid>
       <v-container v-if="this.activePage === 'current' && this.playback" fluid>
-        <v-list title="Currently Playing" v-if="currentContext">
-          <v-list-item>
-            <v-list-item-avatar>
-              <v-img :src="currentContext.image" aspect-ratio="1.33" contain width="100"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-title v-text="currentContext.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="currentContext.description"></v-list-item-subtitle>
-          </v-list-item>
-          <v-divider />
-          <v-list-item-group v-model="currentTrackIndex" color="primary">
-            <v-list-item
-              v-for="(track, index) in currentContext.tracks"
-              :key="track.uri"
-              :id="track.uri.replace(/:/g, '_')"
-            >
-              <v-list-item-avatar>
-                <v-img
-                  v-if="track.album"
-                  :src="track.album.image"
-                  aspect-ratio="1.33"
-                  contain
-                  width="100"
-                ></v-img>
-                <span v-else>{{ index + 1 }}</span>
-              </v-list-item-avatar>
-              <v-list-item-title v-text="track.name"></v-list-item-title>
-              <v-list-item-subtitle v-text="track.artist"></v-list-item-subtitle>
-              <v-list-item-subtitle
-                v-text="track.album.name"
-                v-if="track.album"
-              ></v-list-item-subtitle>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
+        <track-list
+          v-bind:title="'Currently Playing'"
+          v-bind:context="currentContext"
+          v-bind:currentTrackIndex="currentTrackIndex"
+          v-on:trackSelected="trackSelected"
+        />
       </v-container>
       <v-container v-if="this.activePage === 'playlists'" fluid>
         <v-row v-if="playlists">
@@ -224,7 +196,12 @@
 import { mapState } from "vuex";
 import spotify from "../scripts/spotify.js";
 
+import TrackList from "./spotify/TrackList.vue";
+
 export default {
+  components: {
+    TrackList
+  },
   data: function() {
     return {
       clientID: "c4684e2196844a0dbd9e2de0b5051084",
@@ -298,21 +275,16 @@ export default {
         this.$store.commit("settings/setSpotifyDevice", val);
       }
     },
-    currentTrackIndex: {
-      get() {
-        if (
-          this.playback &&
-          this.currentContext &&
-          this.currentContext.tracks &&
-          this.currentContext.tracks.findIndex
-        ) {
-          return this.currentContext.tracks.findIndex(t => t.uri === this.playback.item.uri);
-        }
-        return -1;
-      },
-      set(val) {
-        this.client.playTrack(this.currentContext.uri, this.currentContext.tracks[val].uri);
+    currentTrackIndex: function() {
+      if (
+        this.playback &&
+        this.currentContext &&
+        this.currentContext.tracks &&
+        this.currentContext.tracks.findIndex
+      ) {
+        return this.currentContext.tracks.findIndex(t => t.uri === this.playback.item.uri);
       }
+      return -1;
     },
     deviceIndex: {
       get() {
@@ -447,6 +419,9 @@ export default {
       } else {
         this.client.playContext(uri);
       }
+    },
+    trackSelected: function({ contextUri, trackUri }) {
+      this.client.playTrack(contextUri, trackUri);
     },
     checkForDevices: function() {
       this.client.getDevices().then(devices => {
