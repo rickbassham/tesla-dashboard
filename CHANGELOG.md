@@ -1,3 +1,10 @@
+# [1.9.0-beta.5](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.4...1.9.0-beta.5) (2020-01-26)
+
+
+### Bug Fixes
+
+* add instructions and fix some bugs ([f340018](https://github.com/rickbassham/tesla-dashboard/commit/f340018d6df74ada90bf4919ef7f1e1c5d3ace93))
+
 # [1.9.0-beta.4](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.3...1.9.0-beta.4) (2020-01-25)
 
 
