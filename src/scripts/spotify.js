@@ -28,21 +28,26 @@ export default class {
   }
 
   getCurrentPlayback() {
-    return fetch("https://api.spotify.com/v1/me/player", this.requestOptions).then(response => response.json());
+    return fetch("https://api.spotify.com/v1/me/player", this.requestOptions).then(response => {
+      if (response.status === 200)
+        return response.json();
+
+      return null;
+    });
   }
 
   setRepeat(state) {
     return fetch(`https://api.spotify.com/v1/me/player/repeat?state=${state}`, {
       ...this.requestOptions,
       method: "PUT",
-    }).then(response => response.json());
+    });
   }
 
   setShuffle(state) {
     return fetch(`https://api.spotify.com/v1/me/player/shuffle?state=${state}`, {
       ...this.requestOptions,
       method: "PUT",
-    }).then(response => response.json());
+    });
   }
 
   getDevices() {
@@ -55,28 +60,28 @@ export default class {
     return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "PUT",
-    }).then(response => response.json());
+    });
   }
 
   pausePlayback() {
     return fetch(`https://api.spotify.com/v1/me/player/pause?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "PUT",
-    }).then(response => response.json());
+    });
   }
 
   skipPrevious() {
     return fetch(`https://api.spotify.com/v1/me/player/previous?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "POST",
-    }).then(response => response.json());
+    });
   }
 
   skipNext() {
     return fetch(`https://api.spotify.com/v1/me/player/next?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "POST",
-    }).then(response => response.json());
+    });
   }
 
   playContext(context_uri) {
@@ -84,15 +89,15 @@ export default class {
     return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "PUT",
-      body: JSON.stringify({context_uri}),
-    }).then(response => response.json());
+      body: JSON.stringify({ context_uri }),
+    });
   }
 
   playTrack(context_uri, track_uri) {
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "PUT",
-      body: JSON.stringify({context_uri, offset: {uri: track_uri}}),
+      body: JSON.stringify({ context_uri, offset: { uri: track_uri } }),
     });
   }
 
