@@ -1,3 +1,11 @@
+# [1.9.0-beta.6](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.5...1.9.0-beta.6) (2020-01-26)
+
+
+### Bug Fixes
+
+* cleanup and error handling ([3328bc7](https://github.com/rickbassham/tesla-dashboard/commit/3328bc7ae4fe3ffc8566280be8638dbc549e9294))
+* remote debug statement ([4f3a04e](https://github.com/rickbassham/tesla-dashboard/commit/4f3a04ee7f3aa56ba0bcfd41e1102b2037b66a22))
+
 # [1.9.0-beta.5](https://github.com/rickbassham/tesla-dashboard/compare/1.9.0-beta.4...1.9.0-beta.5) (2020-01-26)
 
 
