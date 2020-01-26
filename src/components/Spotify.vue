@@ -278,6 +278,7 @@ export default {
     currentTrackIndex: function() {
       if (
         this.playback &&
+        this.playback.item &&
         this.currentContext &&
         this.currentContext.tracks &&
         this.currentContext.tracks.findIndex
