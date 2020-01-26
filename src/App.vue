@@ -3,21 +3,37 @@
     <v-app-bar app class="appbar">
       <v-toolbar-title>Tesla Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="mx-2" :color="getColor('Home')" v-on:click="btnClick({title: 'Home'})">
+      <v-btn class="mx-2" :color="getColor('Home')" v-on:click="btnClick({ title: 'Home' })">
         <v-icon left>mdi-home</v-icon>Home
       </v-btn>
-      <v-btn class="mx-2" :color="getColor('Spotify')" v-on:click="btnClick({title: 'Spotify'})">
+      <v-btn class="mx-2" :color="getColor('Spotify')" v-on:click="btnClick({ title: 'Spotify' })">
         <v-icon left>mdi-spotify</v-icon>Spotify
       </v-btn>
 
-      <v-btn class="mx-2" v-for="page in enabledPages" :key="page.title" :color="getColor(page.title)" v-on:click="btnClick(page)">
-        <v-icon left>{{page.icon}}</v-icon>{{page.title}}
+      <v-btn
+        class="mx-2"
+        v-for="page in enabledPages"
+        :key="page.title"
+        :color="getColor(page.title)"
+        v-on:click="btnClick(page)"
+      >
+        <v-icon left>{{ page.icon }}</v-icon
+        >{{ page.title }}
       </v-btn>
 
-      <v-btn v-if="showGuestInstructions" class="mx-2" :color="getColor('Guest')" v-on:click="btnClick({title: 'Guest'})">
+      <v-btn
+        v-if="showGuestInstructions"
+        class="mx-2"
+        :color="getColor('Guest')"
+        v-on:click="btnClick({ title: 'Guest' })"
+      >
         <v-icon left>mdi-account</v-icon>Guest
       </v-btn>
-      <v-btn class="mx-2" :color="getColor('Settings')" v-on:click="btnClick({title: 'Settings'})">
+      <v-btn
+        class="mx-2"
+        :color="getColor('Settings')"
+        v-on:click="btnClick({ title: 'Settings' })"
+      >
         <v-icon left>mdi-settings</v-icon>Settings
       </v-btn>
     </v-app-bar>
@@ -28,9 +44,14 @@
           <welcome />
         </v-container>
         <v-container :class="getClass('Spotify')" fluid>
-          <spotify v-if="activeTab === 'Spotify'" />
+          <spotify />
         </v-container>
-        <v-container v-for="page in enabledPages" :key="page.title" :class="getClass(page.title)" fluid>
+        <v-container
+          v-for="page in enabledPages"
+          :key="page.title"
+          :class="getClass(page.title)"
+          fluid
+        >
           <frame :src="frameSrc[page.title]" />
         </v-container>
         <v-container v-if="showGuestInstructions" :class="getClass('Guest')" fluid>
@@ -51,6 +72,12 @@
       <v-btn text @click="() => (this.darkMode = !this.darkMode)">{{ this.darkModeText }}</v-btn>
       <v-btn text href="https://ts.la/brodrick17858">Tesla Referral Link</v-btn>
     </v-footer>
+    <v-snackbar color="error" bottom right :timeout="10000" v-model="snackbar" multi-line>
+      {{ errorMessage }}
+      <v-btn dark text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -72,8 +99,10 @@ export default {
   },
   data: function() {
     return {
-      frameSrc: {
-      },
+      frameSrc: {},
+      snackbar: false,
+      errorMessage: null,
+      stackTrace: null
     };
   },
   props: {
@@ -104,13 +133,13 @@ export default {
       set(val) {
         this.$store.commit("settings/setActiveTab", val);
       }
-    },
+    }
   },
   methods: {
     btnClick: function(page) {
       this.activeTab = page.title;
 
-      window.history.pushState({"page": page.title}, "", `/${page.title}`);
+      window.history.pushState({ page: page.title }, "", `/${page.title}`);
       this.$matomo.setCustomUrl(`/${page.title}`);
       this.$matomo.trackPageView();
 
@@ -160,6 +189,11 @@ export default {
         });
       }
     }
+  },
+  errorCaptured: function(err) {
+    this.errorMessage = err.message;
+    this.stackTrace = err.stack;
+    this.snackbar = true;
   }
 };
 </script>
