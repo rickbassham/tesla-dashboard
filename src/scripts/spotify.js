@@ -85,7 +85,6 @@ export default class {
   }
 
   playContext(context_uri) {
-    console.log(context_uri);
     return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.device}`, {
       ...this.requestOptions,
       method: "PUT",
