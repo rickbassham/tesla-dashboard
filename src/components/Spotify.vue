@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-dialog persistent v-model="loading">
-      <v-card color="primary" dark>
+      <v-card color="primary">
         <v-card-text>
           Loading
           <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
@@ -140,6 +140,7 @@
               height="100%"
               style="display: flex; flex-direction: column;"
               :id="playlist.uri.replace(/:/g, '_')"
+              :raised="currentContext && currentContext.uri === playlist.uri"
             >
               <v-card-title class="text-truncate" style="display: block">{{
                 playlist.name
@@ -149,9 +150,11 @@
               </v-card-text>
               <v-card-subtitle class="grow">{{ playlist.description }}</v-card-subtitle>
               <v-card-actions>
-                <v-btn color="primary" v-on:click="playAlbumClicked(playlist.uri)">Play</v-btn>
+                <v-btn color="primary" v-on:click="playAlbumClicked(playlist.uri)">
+                  {{ currentContext && currentContext.uri === playlist.uri ? 'Playing' : 'Play' }}
+                </v-btn>
                 <v-spacer />
-                <v-btn>View</v-btn>
+                <!--v-btn>View</v-btn-->
               </v-card-actions>
             </v-card>
           </v-col>
@@ -164,18 +167,21 @@
               height="100%"
               style="display: flex; flex-direction: column;"
               :id="album.album.uri.replace(/:/g, '_')"
+              :raised="currentContext && currentContext.uri === album.album.uri"
             >
-              <v-card-title class="text-truncate" style="display: block">{{
-                album.album.name
-              }}</v-card-title>
+              <v-card-title class="text-truncate" style="display: block">
+                {{ album.album.name }}
+              </v-card-title>
               <v-card-text>
                 <v-img :src="album.album.images[0].url" aspect-ratio="1.33" contain width="300" />
               </v-card-text>
               <v-card-subtitle class="grow">{{ album.album.artists[0].name }}</v-card-subtitle>
               <v-card-actions>
-                <v-btn color="primary" v-on:click="playAlbumClicked(album.album.uri)">Play</v-btn>
+                <v-btn color="primary" v-on:click="playAlbumClicked(album.album.uri)">
+                  {{ currentContext && currentContext.uri === album.album.uri ? 'Playing' : 'Play' }}
+                </v-btn>
                 <v-spacer />
-                <v-btn>View</v-btn>
+                <!--v-btn>View</v-btn-->
               </v-card-actions>
             </v-card>
           </v-col>
@@ -195,7 +201,7 @@
               <v-card-actions>
                 <v-btn color="primary" v-on:click="playAlbumClicked(podcast.show.uri)">Play</v-btn>
                 <v-spacer />
-                <v-btn>View</v-btn>
+                <!--v-btn>View</v-btn-->
               </v-card-actions>
             </v-card>
           </v-col>
@@ -420,7 +426,11 @@ export default {
       this.client.skipNext();
     },
     playAlbumClicked: function(uri) {
-      this.client.playContext(uri);
+      if (uri == this.currentContext.uri) {
+        this.activePage = 'current';
+      } else {
+        this.client.playContext(uri);
+      }
     },
     checkForDevices: function() {
       this.client.getDevices().then(devices => {
