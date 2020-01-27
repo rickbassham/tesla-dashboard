@@ -1,13 +1,5 @@
 <template>
   <v-container fluid>
-    <v-dialog persistent v-model="loading">
-      <v-card>
-        <v-card-text>
-          Loading
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
     <v-dialog persistent v-model="showDialog">
       <v-list>
         <v-list-item-group v-model="deviceIndex">
@@ -17,20 +9,18 @@
         </v-list-item-group>
       </v-list>
     </v-dialog>
-    <v-dialog persistent v-model="showInstructions">
-      <v-card>
-        <v-card-title>Instructions</v-card-title>
-        <v-card-text>
-          Please start playback using the vehicle's Sp&ouml;tify app and then click the button
-          below.
-        </v-card-text>
-        <v-card-actions>
-          <v-btn v-on:click="checkForDevices">
-            Check Again
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-card tile v-if="showInstructions">
+      <v-card-title>Instructions</v-card-title>
+      <v-card-text>
+        Please start playback using the vehicle's Sp&ouml;tify app and then click the button
+        below.
+      </v-card-text>
+      <v-card-actions>
+        <v-btn v-on:click="checkForDevices">
+          Check Again
+        </v-btn>
+      </v-card-actions>
+    </v-card>
     <v-row
       v-if="playback && playback.track"
       style="position: fixed; top: 52px; left: 0; right: 0; z-index: 99;"
@@ -326,6 +316,11 @@ export default {
             if (playback && playback.track) {
               self.currentTrackUri_raw = playback.track.uri;
             }
+          }).catch(e => {
+            if (e === "not-authorized") {
+              self.accessToken = null;
+              self.setup();
+            }
           });
         }, 1000);
       }
@@ -337,6 +332,8 @@ export default {
           this.accessToken = tokenMatch[1];
           window.location.hash = "";
         }
+
+        // TOOD: Check for 401 response and re-auth.
 
         if (!this.accessToken) {
           const callback = encodeURIComponent(`${this.host}/spotify_login`);
