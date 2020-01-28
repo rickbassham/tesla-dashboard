@@ -159,14 +159,13 @@ export default {
     },
     deviceIndex: {
       get() {
-        if (this.devices) {
-          return this.devices.findIndex(d => d.name === this.spotifyDevice);
+        if (this.devices && this.spotifyDevice) {
+          return this.devices.findIndex(d => d.id === this.spotifyDevice);
         }
         return -1;
       },
       set(val) {
-        this.spotifyDevice = this.devices[val];
-        this.client.device = this.spotifyDevice.id;
+        this.spotifyDevice = this.devices[val].id;
       }
     },
     showDialog: function() {
@@ -178,7 +177,7 @@ export default {
       );
     },
     showInstructions: function() {
-      return !this.loading && this.isActive && (!this.devices || !this.devices.length);
+      return !this.loading && this.isActive && !(this.devices && this.devices.length > 0);
     },
     isActive: function() {
       return this.activeTab === "Spotify";
@@ -188,13 +187,11 @@ export default {
     }
   },
   watch: {
-    playback: function(newVal, oldVal) {
-      if (newVal && newVal.contextUri && (!oldVal || newVal.contextUri !== oldVal.contextUri)) {
-        this.spotifyDevice = newVal.device;
-
-        this.client.getContext(this.playback.contextUri).then(currentContext => {
-          this.currentContext = currentContext;
-        });
+    playback: function(val) {
+      if (val && val.device) {
+        if (!this.spotifyDevice || val.device.id !== this.spotifyDevice) {
+          this.spotifyDevice = val.device.id;
+        }
       }
     },
     currentContext: function(newVal, oldVal) {
@@ -235,11 +232,9 @@ export default {
       this.checkForPlayback();
     },
     spotifyDevice: function() {
-      if (this.spotifyDevice) {
-        this.client.device = this.spotifyDevice.id;
+      this.client.device = this.spotifyDevice;
 
-        this.checkForPlayback();
-      }
+      this.checkForPlayback();
     },
     activeTab: function() {
       this.setup();
@@ -283,7 +278,7 @@ export default {
       this.client.skipNext();
     },
     playContextClicked: function(uri) {
-      if (uri == this.currentContext.uri) {
+      if (this.currentContext && uri == this.currentContext.uri) {
         this.activePage = "current";
       } else {
         this.client.playContext(uri);
@@ -300,7 +295,7 @@ export default {
           this.spotifyDevice &&
           this.devices &&
           this.devices.length &&
-          !this.devices.find(d => d.id === this.spotifyDevice.id)
+          !this.devices.find(d => d.id === this.spotifyDevice)
         ) {
           this.spotifyDevice = null;
         }

@@ -67,8 +67,8 @@ export default class {
       if (!playback) return null;
 
       return {
-        contextUri: playback.context.uri,
-        contextType: playback.context.type,
+        contextUri: playback.context ? playback.context.uri : null,
+        contextType: playback.context ? playback.context.type : null,
         progress: playback.progress_ms,
         isPlaying: playback.is_playing,
         shuffleState: playback.shuffle_state,
