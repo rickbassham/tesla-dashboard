@@ -350,6 +350,7 @@ export default {
         }
 
         this.client = new spotify(this.accessToken);
+        this.client.device = this.spotifyDevice;
 
         this.client.getUserProfile().then(user => {
           this.user = user;
