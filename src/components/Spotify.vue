@@ -4,6 +4,9 @@
       <v-list>
         <v-list-item-group v-model="deviceIndex">
           <v-list-item v-for="d in devices" :key="d.name">
+            <v-list-item-icon>
+              <v-icon v-text="deviceIcon(d.type)" ></v-icon>
+            </v-list-item-icon>
             <v-list-item-title v-text="d.name"></v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -320,6 +323,8 @@ export default {
             if (e === "not-authorized") {
               self.accessToken = null;
               self.setup();
+            } else {
+              throw e;
             }
           });
         }, 1000);
@@ -358,6 +363,23 @@ export default {
 
         this.checkForDevices();
       }
+    },
+    deviceIcon(type) {
+      switch (type) {
+        case "Smartphone": return "mdi-cellphone";
+        case "Computer": return "mdi-laptop";
+        case "Tablet": return "mdi-tablet-ipad";
+        case "Speaker": return "mdi-speaker";
+        case "TV": return "mdi-television";
+        case "AVR": return "mdi-audio-video";
+        case "STB": return "mdi-set-top-box";
+        case "AudioDongle": return "mdi-cast-audio";
+        case "GameConsole": return "mdi-gamepad-square";
+        case "CastVideo": return "mdi-cast";
+        case "CastAudio": return "mdi-cast-audio";
+        case "Automobile": return "mdi-car";
+      }
+      return "mdi-cloud-question";
     }
   }
 };

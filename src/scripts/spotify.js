@@ -59,6 +59,9 @@ export default class {
       if (response.status === 200)
         return response.json();
 
+      if (response.status === 401)
+        throw "not-authorized";
+
       return null;
     }).then(playback => {
       if (!playback) return null;
