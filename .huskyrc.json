@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "! (npx git-branch-is -q master && echo 'do not commit to master') && npx pretty-quick --staged",
+    "commit-msg": "npx commitlint -E HUSKY_GIT_PARAMS"
+  }
+}
