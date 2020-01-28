@@ -5,7 +5,7 @@
         <v-list-item-group v-model="deviceIndex">
           <v-list-item v-for="d in devices" :key="d.name">
             <v-list-item-icon>
-              <v-icon v-text="deviceIcon(d.type)" ></v-icon>
+              <v-icon v-text="deviceIcon(d.type)"></v-icon>
             </v-list-item-icon>
             <v-list-item-title v-text="d.name"></v-list-item-title>
           </v-list-item>
@@ -15,8 +15,7 @@
     <v-card tile v-if="showInstructions">
       <v-card-title>Instructions</v-card-title>
       <v-card-text>
-        Please start playback using the vehicle's Sp&ouml;tify app and then click the button
-        below.
+        Please start playback using the vehicle's Sp&ouml;tify app and then click the button below.
       </v-card-text>
       <v-card-actions>
         <v-btn v-on:click="checkForDevices">
@@ -187,10 +186,18 @@ export default {
     }
   },
   watch: {
-    playback: function(val) {
+    playback: function(val, oldVal) {
       if (val && val.device) {
         if (!this.spotifyDevice || val.device.id !== this.spotifyDevice) {
           this.spotifyDevice = val.device.id;
+        }
+      }
+
+      if (val && val.contextUri) {
+        if (!oldVal || oldVal.contextUri !== val.contextUri) {
+          this.client.getContext(this.playback.contextUri).then(currentContext => {
+            this.currentContext = currentContext;
+          });
         }
       }
     },
@@ -309,19 +316,19 @@ export default {
 
         const self = this;
         this.playbackInterval = setInterval(function() {
-          self.client.getCurrentPlayback().then(playback => {
-            self.playback = playback;
-            if (playback && playback.track) {
-              self.currentTrackUri_raw = playback.track.uri;
-            }
-          }).catch(e => {
-            if (e === "not-authorized") {
-              self.accessToken = null;
-              self.setup();
-            } else {
-              throw e;
-            }
-          });
+          self.client
+            .getCurrentPlayback()
+            .then(playback => {
+              self.playback = playback;
+            })
+            .catch(e => {
+              if (e === "not-authorized") {
+                self.accessToken = null;
+                self.setup();
+              } else {
+                throw e;
+              }
+            });
         }, 1000);
       }
     },
@@ -361,18 +368,30 @@ export default {
     },
     deviceIcon(type) {
       switch (type) {
-        case "Smartphone": return "mdi-cellphone";
-        case "Computer": return "mdi-laptop";
-        case "Tablet": return "mdi-tablet-ipad";
-        case "Speaker": return "mdi-speaker";
-        case "TV": return "mdi-television";
-        case "AVR": return "mdi-audio-video";
-        case "STB": return "mdi-set-top-box";
-        case "AudioDongle": return "mdi-cast-audio";
-        case "GameConsole": return "mdi-gamepad-square";
-        case "CastVideo": return "mdi-cast";
-        case "CastAudio": return "mdi-cast-audio";
-        case "Automobile": return "mdi-car";
+        case "Smartphone":
+          return "mdi-cellphone";
+        case "Computer":
+          return "mdi-laptop";
+        case "Tablet":
+          return "mdi-tablet-ipad";
+        case "Speaker":
+          return "mdi-speaker";
+        case "TV":
+          return "mdi-television";
+        case "AVR":
+          return "mdi-audio-video";
+        case "STB":
+          return "mdi-set-top-box";
+        case "AudioDongle":
+          return "mdi-cast-audio";
+        case "GameConsole":
+          return "mdi-gamepad-square";
+        case "CastVideo":
+          return "mdi-cast";
+        case "CastAudio":
+          return "mdi-cast-audio";
+        case "Automobile":
+          return "mdi-car";
       }
       return "mdi-cloud-question";
     }
